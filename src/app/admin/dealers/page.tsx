@@ -178,7 +178,7 @@ export default function AdminDealersPage() {
     setIsInviteModalOpen(false);
     setNotifiedMsg(
       formSendInvite
-        ? `Invitation dispatched to ${newDealer.email} with AutoHub DIP credentials & Heiwa feed link`
+        ? `Invitation dispatched to ${newDealer.email} with DealHub DIP credentials & Heiwa feed link`
         : `Successfully added ${newDealer.name} to registered dealer network`
     );
     setTimeout(() => setNotifiedMsg(null), 4000);
@@ -196,7 +196,7 @@ export default function AdminDealersPage() {
   const handleCopyInviteLink = () => {
     if (typeof window !== "undefined") {
       navigator.clipboard.writeText(
-        `https://autohub.co.nz/invite/dealer?ref=dip_admin_${Date.now()}`
+        `https://dealhub.co.nz/invite/dealer?ref=dip_admin_${Date.now()}`
       );
       setCopiedLink(true);
       setTimeout(() => setCopiedLink(false), 2500);
@@ -656,7 +656,7 @@ export default function AdminDealersPage() {
                         Direct Dealer Invitation Link
                       </span>
                       <span className="font-mono text-[#1E3A5F] text-[11px] truncate block">
-                        https://autohub.co.nz/invite/dealer?ref=dip_onboard
+                        https://dealhub.co.nz/invite/dealer?ref=dip_onboard
                       </span>
                     </div>
                     <button

@@ -23,7 +23,7 @@ export default function DataSourceModal({ isOpen, onClose }: DataSourceModalProp
       title: "2. Dealer Searches & 'Ask AI' Queries",
       icon: Search,
       color: "text-blue-500 bg-blue-50 border-blue-200",
-      description: "Real-time search telemetry and natural language questions submitted to the AutoHub DIP Assistant (e.g., 'Find me 2019+ hybrid SUVs with strong margin potential').",
+      description: "Real-time search telemetry and natural language questions submitted to the DealHub DIP Assistant (e.g., 'Find me 2019+ hybrid SUVs with strong margin potential').",
       metric: "4,860 Searches / Month"
     },
     {
@@ -62,7 +62,7 @@ export default function DataSourceModal({ isOpen, onClose }: DataSourceModalProp
                 Demand Intelligence Pipeline
               </h3>
               <p className="text-xs text-slate-500 font-medium">
-                Where does AutoHub DIP sourcing data come from?
+                Where does DealHub DIP sourcing data come from?
               </p>
             </div>
           </div>

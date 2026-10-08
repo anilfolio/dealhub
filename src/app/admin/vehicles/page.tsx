@@ -996,7 +996,7 @@ export default function AdminVehiclesPage() {
                   </div>
                   <div className="grid grid-cols-3 gap-3 pt-1">
                     <div className="bg-white p-2.5 rounded-xl border border-slate-200 text-center">
-                      <span className="text-[10px] text-slate-500 font-bold block uppercase">AutoHub Landed</span>
+                      <span className="text-[10px] text-slate-500 font-bold block uppercase">DealHub Landed</span>
                       <span className="font-mono font-extrabold text-sm text-[#E11D48]">
                         NZ${previewLanded.totalLanded.toLocaleString()}
                       </span>

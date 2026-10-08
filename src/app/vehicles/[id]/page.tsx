@@ -445,10 +445,10 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
 
               {/* ─── Landed Cost vs NZ Market Spread Grid ─── */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-xl bg-gradient-to-br from-[#F8FAFC] to-white border border-[#E8ECF0]">
-                {/* AutoHub Landed Cost */}
+                {/* DealHub Landed Cost */}
                 <div className="p-3 bg-white rounded-lg border border-[#E8ECF0] shadow-2xs">
                   <div className="text-[10px] font-bold text-[#8899A6] uppercase tracking-wider">
-                    {isReserve ? "Direct Landed Cost (Fixed)" : "AutoHub Landed Cost (Guide)"}
+                    {isReserve ? "Direct Landed Cost (Fixed)" : "DealHub Landed Cost (Guide)"}
                   </div>
                   <div className="text-xl font-extrabold text-[#E11D48] font-mono mt-0.5">
                     NZ${landed.totalLanded.toLocaleString("en-US")}
@@ -1049,7 +1049,7 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
                       Reservation & Enquiry Confirmed!
                     </h4>
                     <p className="text-xs text-emerald-800 leading-relaxed max-w-sm mx-auto">
-                      Your request for <strong>{vehicle.year} {vehicle.make} {vehicle.model}</strong> (Stockid #{vehicle.stockId}) has been logged. An AutoHub Japanese export specialist will contact Auckland Auto Group within 15 minutes.
+                      Your request for <strong>{vehicle.year} {vehicle.make} {vehicle.model}</strong> (Stockid #{vehicle.stockId}) has been logged. A DealHub Japanese export specialist will contact Auckland Auto Group within 15 minutes.
                     </p>
                     <div className="pt-2 flex justify-center gap-2">
                       <button

@@ -147,7 +147,7 @@ export default function ProfilePage() {
       setIsUpdatingPassword(false);
       setPasswordStatus({
         type: "success",
-        message: "Password successfully updated & synchronized with AutoHub DIP Admin Security.",
+        message: "Password successfully updated & synchronized with DealHub DIP Admin Security.",
       });
 
       // Clear fields
@@ -203,7 +203,7 @@ export default function ProfilePage() {
         {saved && (
           <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-800 text-xs font-semibold flex items-center gap-2 animate-fadeIn shadow-xs">
             <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
-            <span>Profile details successfully updated and synchronized with AutoHub DIP.</span>
+            <span>Profile details successfully updated and synchronized with DealHub DIP.</span>
           </div>
         )}
 
@@ -293,7 +293,7 @@ export default function ProfilePage() {
                   Delivery Yard & Logistics Contact
                 </h3>
                 <p className="text-xs text-[#64748B]">
-                  AutoHub delivery transporters use this address for port-to-yard haulage.
+                  DealHub delivery transporters use this address for port-to-yard haulage.
                 </p>
               </div>
             </div>
@@ -535,7 +535,7 @@ export default function ProfilePage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-slate-100">
               <div className="flex items-center gap-2 text-xs text-slate-500">
                 <ShieldCheck size={15} className="text-emerald-600 shrink-0" />
-                <span>Encrypted using bcrypt-256 with AutoHub DIP Master Key sync</span>
+                <span>Encrypted using bcrypt-256 with DealHub DIP Master Key sync</span>
               </div>
 
               <div className="flex items-center gap-2">

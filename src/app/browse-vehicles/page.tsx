@@ -1212,7 +1212,7 @@ function BrowseVehiclesContent() {
                     Reservation & Enquiry Received!
                   </h4>
                   <p className="text-xs text-emerald-800 leading-relaxed max-w-sm mx-auto">
-                    Your request for <strong>{enquiryVehicle.year} {enquiryVehicle.make} {enquiryVehicle.model}</strong> (Stockid #{enquiryVehicle.stockId}) has been logged. An AutoHub Japanese auction specialist will contact Auckland Auto Group within 15 minutes.
+                    Your request for <strong>{enquiryVehicle.year} {enquiryVehicle.make} {enquiryVehicle.model}</strong> (Stockid #{enquiryVehicle.stockId}) has been logged. A DealHub Japanese auction specialist will contact Auckland Auto Group within 15 minutes.
                   </p>
                   <div className="pt-2 flex justify-center gap-2">
                     <button

@@ -1,4 +1,4 @@
-// Dealer Store & Helper Services for AutoHub DIP Phase 1
+// Dealer Store & Helper Services for DealHub DIP Phase 1
 // Handles Wishlist Criteria, Watchlist, Bids, Purchases, and Vehicle Photo mappings
 
 import { HEIWA_VEHICLES, HeiwaVehicle, calculateLandedCost, LANDED_COST_CONSTANTS } from './heiwaData';

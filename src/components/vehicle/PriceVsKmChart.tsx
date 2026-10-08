@@ -269,7 +269,7 @@ export default function PriceVsKmChart({
                     x: hx,
                     y: hy,
                     title: `${heiwaVehicle.year} ${heiwaVehicle.make} ${heiwaVehicle.model}`,
-                    source: "Heiwa Japan Auction (AutoHub Landed)",
+                    source: "Heiwa Japan Auction (DealHub Landed)",
                     price: heiwaVehicle.landedCost,
                     kms: heiwaVehicle.kms,
                     isHeiwa: true,

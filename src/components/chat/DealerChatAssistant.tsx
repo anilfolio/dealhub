@@ -474,7 +474,7 @@ export default function DealerChatAssistant({
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-sm font-black tracking-wide text-white">AutoHub DIP Copilot</span>
+                  <span className="text-sm font-black tracking-wide text-white">DealHub DIP Copilot</span>
                   <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                     Live
@@ -556,7 +556,7 @@ export default function DealerChatAssistant({
               {msg.sender === "bot" ? (
                 <>
                   <span className="w-4 h-4 rounded bg-[#E11D48] text-white flex items-center justify-center text-[9px] font-bold">和</span>
-                  <span className="font-bold text-slate-700">AutoHub DIP</span>
+                  <span className="font-bold text-slate-700">DealHub DIP</span>
                 </>
               ) : (
                 <>
@@ -727,7 +727,7 @@ export default function DealerChatAssistant({
         </div>
         <div className="flex items-center justify-between mt-2 px-1 text-[10px] text-slate-400">
           <span>Press Enter to send · Press ⌘J to focus</span>
-          <span className="font-semibold text-slate-500">AutoHub DIP v2.4</span>
+          <span className="font-semibold text-slate-500">DealHub DIP v2.4</span>
         </div>
       </div>
     </aside>
