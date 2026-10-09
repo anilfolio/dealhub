@@ -20,7 +20,6 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
 } from 'lucide-react';
-import RoleSwitcher from './RoleSwitcher';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -370,11 +369,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </form>
           </div>
 
-          {/* Right Header: Role Switcher + Feeds Sync + Notification */}
+          {/* Right Header: Feeds Sync + Notification */}
           <div className="flex items-center gap-2.5 sm:gap-3 ml-3 sm:ml-4">
-            {/* View Switcher: Dealer / Admin */}
-            <RoleSwitcher />
-
             {/* Feeds Refresh Button */}
             <button
               onClick={handleRefreshFeeds}
