@@ -99,37 +99,37 @@ export default function PurchasesPage() {
               >
                 {/* Vehicle Header */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[#F1F5F9]">
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3 sm:gap-4">
                     <img
                       src={photoUrl}
                       alt=""
-                      className="w-20 h-14 rounded-xl object-cover border border-[#E5E7EB]"
+                      className="w-16 h-12 sm:w-20 sm:h-14 rounded-xl object-cover border border-[#E5E7EB] shrink-0"
                     />
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <h3 className="text-base font-bold text-[#111827]">
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="text-sm sm:text-base font-bold text-[#111827]">
                           {purchase.year} {purchase.make} {purchase.model}
                         </h3>
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-[#475569]">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-[#475569] shrink-0">
                           Order #{purchase.id}
                         </span>
                       </div>
-                      <div className="text-xs text-[#64748B] font-mono mt-0.5">
+                      <div className="text-xs text-[#64748B] font-mono mt-0.5 truncate">
                         Chassis: {purchase.vehicleChassis} · {purchase.kms.toLocaleString("en-US")} km
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-6 text-right">
-                    <div>
+                  <div className="flex items-center justify-between md:justify-end gap-4 sm:gap-6 pt-2 md:pt-0 border-t md:border-t-0 border-[#F1F5F9]">
+                    <div className="text-left md:text-right">
                       <div className="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-wider">
                         Total Landed Cost
                       </div>
-                      <div className="text-lg font-extrabold text-[#111827] font-mono">
+                      <div className="text-base sm:text-lg font-extrabold text-[#111827] font-mono">
                         NZ${purchase.totalLandedNzd.toLocaleString("en-US")}
                       </div>
                     </div>
-                    <div className="border-l border-[#E5E7EB] pl-6 text-left">
+                    <div className="border-l border-[#E5E7EB] pl-4 sm:pl-6 text-left">
                       <div className="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-wider">
                         Vessel / ETA
                       </div>
@@ -141,9 +141,9 @@ export default function PurchasesPage() {
                   </div>
                 </div>
 
-                {/* 5-Step Progress Stepper */}
-                <div className="py-2">
-                  <div className="grid grid-cols-5 gap-2 relative">
+                {/* 5-Step Progress Stepper — Swipeable on mobile */}
+                <div className="py-2 overflow-x-auto no-scrollbar -mx-2 px-2">
+                  <div className="min-w-[480px] sm:min-w-0 grid grid-cols-5 gap-2 relative">
                     {STAGES.map((s) => {
                       const isComplete = s.step < purchase.currentStage;
                       const isCurrent = s.step === purchase.currentStage;
@@ -151,7 +151,7 @@ export default function PurchasesPage() {
                       return (
                         <div key={s.step} className="flex flex-col items-center text-center">
                           <div
-                            className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs transition-all z-10 ${isComplete
+                            className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center font-bold text-xs transition-all z-10 ${isComplete
                                 ? "bg-emerald-600 text-white"
                                 : isCurrent
                                   ? "bg-[#E11D48] text-white ring-4 ring-[#E11D48]/15"

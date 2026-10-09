@@ -328,13 +328,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* ─── Main Content Viewport ─── */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top Header Bar — Aligned to 68px */}
-        <header className="h-[68px] bg-white border-b border-[#E5E7EB] px-4 sm:px-8 flex items-center justify-between shrink-0 z-30">
-          <div className="flex items-center gap-2.5 sm:gap-3 flex-1 max-w-xl">
+        <header className="h-[68px] bg-white border-b border-[#E5E7EB] px-3 sm:px-8 flex items-center justify-between shrink-0 z-30">
+          <div className="flex items-center gap-2 sm:gap-3 flex-1 max-w-xl min-w-0">
             {/* Phone/iPad Menu Toggle (< 1024px) */}
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="lg:hidden p-2 text-[#4B5563] hover:text-[#111827] rounded-xl hover:bg-slate-100 transition-colors"
+              className="lg:hidden p-2 text-[#4B5563] hover:text-[#111827] rounded-xl hover:bg-slate-100 transition-colors shrink-0"
               title="Open navigation menu"
+              aria-label="Open menu"
             >
               <Menu size={20} />
             </button>
@@ -342,7 +343,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {/* Laptop/Desktop Sidebar Toggle (>= 1024px) */}
             <button
               onClick={toggleSidebar}
-              className="hidden lg:flex items-center justify-center p-2 text-[#4B5563] hover:text-[#111827] rounded-xl hover:bg-slate-100 border border-transparent hover:border-slate-200 transition-all cursor-pointer group"
+              className="hidden lg:flex items-center justify-center p-2 text-[#4B5563] hover:text-[#111827] rounded-xl hover:bg-slate-100 border border-transparent hover:border-slate-200 transition-all cursor-pointer group shrink-0"
               title={isCollapsed ? "Expand sidebar" : "Collapse to mini sidebar"}
               aria-label={isCollapsed ? "Expand sidebar" : "Collapse to mini sidebar"}
             >
@@ -354,14 +355,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </button>
 
             {/* Centered/Wide Search Input with / shortcut badge */}
-            <form onSubmit={handleHeaderSearch} className="relative w-full">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#9CA3AF]" />
+            <form onSubmit={handleHeaderSearch} className="relative w-full min-w-0">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#9CA3AF]" />
               <input
                 type="text"
                 value={headerSearchQuery}
                 onChange={(e) => setHeaderSearchQuery(e.target.value)}
-                placeholder="Search models, dealers, VINs or lots..."
-                className="w-full pl-10 pr-12 py-2 bg-white border border-[#E5E7EB] rounded-xl text-xs sm:text-sm text-[#111827] placeholder:text-[#9CA3AF] outline-none focus:border-[#E11D48] focus:ring-1 focus:ring-[#E11D48] transition-all"
+                placeholder="Search models, dealers, VINs..."
+                className="w-full pl-8.5 sm:pl-10 pr-6 sm:pr-12 py-1.5 sm:py-2 bg-white border border-[#E5E7EB] rounded-xl text-xs sm:text-sm text-[#111827] placeholder:text-[#9CA3AF] placeholder:text-[11px] sm:placeholder:text-sm outline-none focus:border-[#E11D48] focus:ring-1 focus:ring-[#E11D48] transition-all"
               />
               <span className="hidden sm:inline-block absolute right-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 text-[10px] font-semibold text-[#9CA3AF] bg-slate-100 border border-[#E5E7EB] rounded">
                 /
@@ -370,7 +371,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </div>
 
           {/* Right Header: Feeds Sync + Notification */}
-          <div className="flex items-center gap-2.5 sm:gap-3 ml-3 sm:ml-4">
+          <div className="flex items-center gap-1.5 sm:gap-3 ml-2 sm:ml-4 shrink-0">
             {/* Feeds Refresh Button */}
             <button
               onClick={handleRefreshFeeds}
@@ -393,12 +394,64 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </header>
 
         {/* Scrollable Page Canvas */}
-        <main className="flex-1 overflow-y-auto bg-[#F8FAFC] p-5 sm:p-8 lg:p-10">
+        <main className="flex-1 overflow-y-auto bg-[#F8FAFC] p-3.5 sm:p-8 lg:p-10 pb-24 lg:pb-10">
           <div className="max-w-[1520px] mx-auto">
             {children}
           </div>
         </main>
       </div>
+
+      {/* ─── Ultra-Premium Admin Mobile Bottom Navigation Dock (< lg) ─── */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0A1322]/95 backdrop-blur-xl border-t border-[#1B2A42] px-2 py-1 flex items-center justify-around safe-area-pb shadow-2xl">
+        <Link
+          href="/admin"
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all ${
+            pathname === '/admin' ? 'text-rose-500 font-bold' : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <LayoutDashboard size={19} />
+          <span className="text-[10px] mt-0.5 tracking-tight">Overview</span>
+        </Link>
+
+        <Link
+          href="/admin/vehicles"
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all ${
+            pathname.startsWith('/admin/vehicles') ? 'text-rose-500 font-bold' : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <Car size={19} />
+          <span className="text-[10px] mt-0.5 tracking-tight">Lots</span>
+        </Link>
+
+        <Link
+          href="/admin/dealers"
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all ${
+            pathname.startsWith('/admin/dealers') ? 'text-rose-500 font-bold' : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <Users size={19} />
+          <span className="text-[10px] mt-0.5 tracking-tight">Dealers</span>
+        </Link>
+
+        <Link
+          href="/admin/wishlists"
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all ${
+            pathname.startsWith('/admin/wishlists') ? 'text-rose-500 font-bold' : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <Heart size={19} />
+          <span className="text-[10px] mt-0.5 tracking-tight">Wishlists</span>
+        </Link>
+
+        <button
+          onClick={() => setMobileMenuOpen(true)}
+          className="flex flex-col items-center justify-center py-1 px-2.5 rounded-xl text-slate-400 hover:text-slate-200 transition-all cursor-pointer"
+          title="Open menu"
+        >
+          <Menu size={19} />
+          <span className="text-[10px] mt-0.5 tracking-tight">Menu</span>
+        </button>
+      </nav>
     </div>
   );
 }

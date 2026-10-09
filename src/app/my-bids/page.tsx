@@ -99,28 +99,28 @@ export default function MyBidsPage() {
         </div>
 
         {/* ─── Filter Tabs ─── */}
-        <div className="flex items-center gap-2 p-1 bg-white border border-slate-200/90 rounded-xl w-fit shadow-soft">
+        <div className="w-full sm:w-fit grid grid-cols-3 sm:flex items-center gap-1.5 p-1 bg-white border border-slate-200/90 rounded-xl shadow-soft">
           <button
             onClick={() => setActiveFilter("all")}
-            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeFilter === "all"
+            className={`px-2.5 sm:px-4 py-2 rounded-lg text-xs font-bold transition-all text-center ${activeFilter === "all"
               ? "bg-[#0F1B2E] text-white shadow-2xs"
               : "text-[#64748B] hover:text-[#111827]"
               }`}
           >
-            All Bids ({bids.length})
+            All ({bids.length})
           </button>
           <button
             onClick={() => setActiveFilter("active")}
-            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeFilter === "active"
+            className={`px-2.5 sm:px-4 py-2 rounded-lg text-xs font-bold transition-all text-center ${activeFilter === "active"
               ? "bg-[#0F1B2E] text-white shadow-2xs"
               : "text-[#64748B] hover:text-[#111827]"
               }`}
           >
-            Active Bids ({activeBids.length})
+            Active ({activeBids.length})
           </button>
           <button
             onClick={() => setActiveFilter("won")}
-            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeFilter === "won"
+            className={`px-2.5 sm:px-4 py-2 rounded-lg text-xs font-bold transition-all text-center ${activeFilter === "won"
               ? "bg-[#0F1B2E] text-white shadow-2xs"
               : "text-[#64748B] hover:text-[#111827]"
               }`}

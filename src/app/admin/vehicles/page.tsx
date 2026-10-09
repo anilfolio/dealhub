@@ -402,8 +402,11 @@ export default function AdminVehiclesPage() {
 
         {/* ─── Vehicles Table View ─── */}
         <div className="bg-white rounded-2xl border border-slate-200/90 shadow-soft overflow-hidden hover:shadow-soft-md transition-shadow">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
+          <div className="lg:hidden px-3.5 py-1.5 bg-slate-50 border-b border-[#E2E8F0] text-[10.5px] text-slate-500 font-medium">
+            ← Swipe horizontally for FOB, Landed Cost & Margins →
+          </div>
+          <div className="overflow-x-auto no-scrollbar sm:overflow-x-auto">
+            <table className="w-full text-left text-xs border-collapse min-w-[860px]">
               <thead>
                 <tr className="bg-slate-50/80 border-b border-[#E2E8F0] text-[#64748B] font-bold uppercase tracking-wider">
                   <th className="py-3.5 px-4">Vehicle / Details</th>

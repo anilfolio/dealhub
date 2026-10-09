@@ -257,7 +257,7 @@ export default function AdminWishlistsPage() {
                   </div>
 
                   {/* Right side: Matches Count & Actions */}
-                  <div className="flex items-center gap-3 shrink-0">
+                  <div className="flex items-center justify-between lg:justify-end gap-3 pt-3 lg:pt-0 border-t lg:border-t-0 border-[#F1F5F9] shrink-0">
                     <div className="text-right">
                       <div className="text-[10px] text-[#64748B] uppercase font-bold tracking-wider">
                         Live Matches

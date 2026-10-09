@@ -217,21 +217,21 @@ export default function AdminDealersPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="w-full sm:w-auto grid grid-cols-2 sm:flex items-center gap-2.5">
             <Link
               href="/admin/wishlists"
-              className="px-4 py-2.5 rounded-xl bg-white border border-[#CBD5E1] text-[#1E3A5F] hover:bg-slate-50 text-xs font-bold shadow-xs transition-all flex items-center gap-2"
+              className="justify-center px-3 sm:px-4 py-2.5 rounded-xl bg-white border border-[#CBD5E1] text-[#1E3A5F] hover:bg-slate-50 text-xs font-bold shadow-xs transition-all flex items-center gap-2"
             >
               <Heart size={14} className="text-[#E11D48]" />
-              <span>All Wish Lists ({liveWishlists.length + 2})</span>
+              <span className="truncate">Wish Lists ({liveWishlists.length + 2})</span>
             </Link>
 
             <button
               onClick={() => setIsInviteModalOpen(true)}
-              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#E11D48] to-[#BE123C] hover:from-[#BE123C] hover:to-[#9F1239] text-white text-xs font-bold shadow-md shadow-rose-950/30 transition-all flex items-center gap-2 cursor-pointer"
+              className="justify-center px-3 sm:px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#E11D48] to-[#BE123C] hover:from-[#BE123C] hover:to-[#9F1239] text-white text-xs font-bold shadow-md shadow-rose-950/30 transition-all flex items-center gap-2 cursor-pointer"
             >
               <UserPlus size={15} />
-              <span>Invite Dealer</span>
+              <span className="truncate">Invite Dealer</span>
             </button>
           </div>
         </div>
@@ -267,7 +267,7 @@ export default function AdminDealersPage() {
         </div>
 
         {/* ─── Dealer Cards Grid ─── */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6">
           {filteredDealers.map((d) => {
             const matches = getDealerMatches(d.id);
             const isAucklandAuto = d.id === 1;

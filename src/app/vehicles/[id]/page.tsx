@@ -207,18 +207,18 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
 
 
         {/* ─── Action & Navigation Bar ─── */}
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           <Link
             href="/browse-vehicles"
-            className="inline-flex items-center gap-2 text-xs font-semibold text-[#536471] hover:text-[#111C2D] bg-white border border-[#E8ECF0] px-3.5 py-2 rounded-xl transition-colors shadow-2xs hover:shadow-xs"
+            className="inline-flex items-center justify-center sm:justify-start gap-2 text-xs font-semibold text-[#536471] hover:text-[#111827] bg-white border border-[#E8ECF0] px-3.5 py-2 rounded-xl transition-colors shadow-2xs hover:shadow-xs"
           >
             <ArrowLeft size={14} /> Back to Browse Vehicles
           </Link>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2">
             <button
               onClick={handleToggleWatchlist}
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all ${isWatchlisted
+              className={`flex-1 sm:flex-initial justify-center flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all ${isWatchlisted
                 ? "bg-rose-50 text-rose-700 border-rose-200 shadow-2xs"
                 : "bg-white text-[#536471] border-[#E8ECF0] hover:bg-[#F0F2F5] hover:text-[#111C2D]"
                 }`}
@@ -227,7 +227,7 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
                 size={14}
                 className={isWatchlisted ? "fill-[#E11D48] text-[#E11D48]" : ""}
               />
-              <span>{isWatchlisted ? "Watchlisted" : "Add to Watchlist"}</span>
+              <span>{isWatchlisted ? "Watchlisted" : "Watchlist"}</span>
             </button>
 
             {isReserve ? (
@@ -236,7 +236,7 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
                   setEnquiryModalOpen(true);
                   setEnquirySuccess(false);
                 }}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-[#E11D48] hover:bg-[#BE123C] text-white shadow-sm shadow-rose-950/20 transition-all hover:shadow-md cursor-pointer"
+                className="flex-1 sm:flex-initial justify-center flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-[#E11D48] hover:bg-[#BE123C] text-white shadow-sm shadow-rose-950/20 transition-all hover:shadow-md cursor-pointer"
               >
                 <Clock size={14} />
                 <span>Enquire / Reserve</span>
@@ -247,7 +247,7 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
                   setBidModalOpen(true);
                   setBidSuccess(false);
                 }}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-[#E11D48] hover:bg-[#BE123C] text-white shadow-sm shadow-rose-950/20 transition-all hover:shadow-md cursor-pointer"
+                className="flex-1 sm:flex-initial justify-center flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-[#E11D48] hover:bg-[#BE123C] text-white shadow-sm shadow-rose-950/20 transition-all hover:shadow-md cursor-pointer"
               >
                 <Gavel size={14} />
                 <span>Place Proxy Bid</span>
@@ -257,8 +257,8 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
         </div>
 
         {/* ─── INTELLIGENCE LAYER 1: HEIWA VEHICLE HERO ─── */}
-        <div className="bg-white rounded-2xl border border-slate-200/90 shadow-soft hover:shadow-soft-md transition-shadow p-6 overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-7">
+        <div className="bg-white rounded-2xl border border-slate-200/90 shadow-soft hover:shadow-soft-md transition-shadow p-4 sm:p-6 overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-7">
             {/* Vehicle Image & Verified Badges */}
             <div className="lg:col-span-5 space-y-3">
               <div className="relative aspect-[16/10] sm:h-72 rounded-xl bg-gray-100 overflow-hidden border border-[#E8ECF0]">
@@ -267,24 +267,24 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
                   alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute top-3 left-3 flex items-center gap-2">
-                  <span className="bg-[#0F1B2E]/90 backdrop-blur-xs text-white px-2.5 py-1 rounded-md text-xs font-bold font-mono">
+                <div className="absolute top-2.5 left-2.5 right-2.5 flex flex-wrap items-center gap-1.5">
+                  <span className="bg-[#0F1B2E]/90 backdrop-blur-xs text-white px-2 py-0.5 rounded text-[10.5px] font-bold font-mono">
                     Stockid #{vehicle.stockId}
                   </span>
                   {isReserve ? (
-                    <span className="bg-emerald-600/95 backdrop-blur-xs text-white px-2.5 py-1 rounded-md text-xs font-bold shadow-xs flex items-center gap-1">
-                      <Clock size={12} />
-                      Reserve Stock
+                    <span className="bg-emerald-600/95 backdrop-blur-xs text-white px-2 py-0.5 rounded text-[10.5px] font-bold shadow-xs flex items-center gap-1">
+                      <Clock size={11} />
+                      Reserve
                     </span>
                   ) : (
-                    <span className="bg-blue-600/95 backdrop-blur-xs text-white px-2.5 py-1 rounded-md text-xs font-bold shadow-xs flex items-center gap-1">
-                      <Gavel size={12} />
-                      Auction Lot
+                    <span className="bg-blue-600/95 backdrop-blur-xs text-white px-2 py-0.5 rounded text-[10.5px] font-bold shadow-xs flex items-center gap-1">
+                      <Gavel size={11} />
+                      Auction
                     </span>
                   )}
-                  <span className="bg-white/95 backdrop-blur-xs text-[#111C2D] border border-slate-200 px-2.5 py-1 rounded-md text-xs font-bold shadow-xs flex items-center gap-1">
-                    <ShieldCheck size={12} className="text-emerald-600" />
-                    Condition {conditionScore}/10
+                  <span className="bg-white/95 backdrop-blur-xs text-[#111C2D] border border-slate-200 px-2 py-0.5 rounded text-[10.5px] font-bold shadow-xs flex items-center gap-1">
+                    <ShieldCheck size={11} className="text-emerald-600" />
+                    Cond. {conditionScore}/10
                   </span>
                 </div>
                 {vehicle.ac && (

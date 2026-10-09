@@ -398,13 +398,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       {/* ─── Main Content Viewport ─── */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top Header Bar (Height aligned to 68px) */}
-        <header className="h-[68px] bg-white border-b border-[#E5E7EB] px-4 sm:px-8 flex items-center justify-between shrink-0 z-30">
-          <div className="flex items-center gap-2.5 sm:gap-3 flex-1 max-w-xl">
+        <header className="h-[68px] bg-white border-b border-[#E5E7EB] px-3 sm:px-8 flex items-center justify-between shrink-0 z-30">
+          <div className="flex items-center gap-2 sm:gap-3 flex-1 max-w-xl min-w-0">
             {/* Phone/iPad Menu Toggle (< 1024px) */}
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="lg:hidden p-2 text-[#4B5563] hover:text-[#111827] rounded-xl hover:bg-slate-100 transition-colors"
+              className="lg:hidden p-2 text-[#4B5563] hover:text-[#111827] rounded-xl hover:bg-slate-100 transition-colors shrink-0"
               title="Open navigation menu"
+              aria-label="Open menu"
             >
               <Menu size={20} />
             </button>
@@ -412,7 +413,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             {/* Laptop/Desktop Sidebar Toggle (>= 1024px) */}
             <button
               onClick={toggleSidebar}
-              className="hidden lg:flex items-center justify-center p-2 text-[#4B5563] hover:text-[#111827] rounded-xl hover:bg-slate-100 border border-transparent hover:border-slate-200 transition-all cursor-pointer group"
+              className="hidden lg:flex items-center justify-center p-2 text-[#4B5563] hover:text-[#111827] rounded-xl hover:bg-slate-100 border border-transparent hover:border-slate-200 transition-all cursor-pointer group shrink-0"
               title={isCollapsed ? "Expand sidebar" : "Collapse to mini sidebar"}
               aria-label={isCollapsed ? "Expand sidebar" : "Collapse to mini sidebar"}
             >
@@ -424,14 +425,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </button>
 
             {/* Search Input with ⌘K Badge */}
-            <form onSubmit={handleHeaderSearch} className="relative w-full">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#9CA3AF]" />
+            <form onSubmit={handleHeaderSearch} className="relative w-full min-w-0">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#9CA3AF]" />
               <input
                 type="text"
                 value={headerSearchQuery}
                 onChange={(e) => setHeaderSearchQuery(e.target.value)}
-                placeholder="Search make, model, year or keyword..."
-                className="w-full pl-10 pr-12 py-2 bg-white border border-[#E5E7EB] rounded-xl text-xs sm:text-sm text-[#111827] placeholder:text-[#9CA3AF] outline-none focus:border-[#E11D48] focus:ring-1 focus:ring-[#E11D48] transition-all"
+                placeholder="Search make, model, year..."
+                className="w-full pl-8.5 sm:pl-10 pr-6 sm:pr-12 py-1.5 sm:py-2 bg-white border border-[#E5E7EB] rounded-xl text-xs sm:text-sm text-[#111827] placeholder:text-[#9CA3AF] placeholder:text-[11px] sm:placeholder:text-sm outline-none focus:border-[#E11D48] focus:ring-1 focus:ring-[#E11D48] transition-all"
               />
               <span className="hidden sm:inline-block absolute right-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 text-[10px] font-semibold text-[#9CA3AF] bg-slate-100 border border-[#E5E7EB] rounded">
                 /
@@ -440,7 +441,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </div>
 
           {/* Right Header: Wishlist Button + Notifications */}
-          <div className="flex items-center gap-2.5 sm:gap-3 ml-3 sm:ml-4">
+          <div className="flex items-center gap-1.5 sm:gap-3 ml-2 sm:ml-4 shrink-0">
             {/* Wishlist Header Quick Access */}
             <WishlistButton onClick={() => setWishlistModalOpen(true)} />
 
@@ -456,12 +457,93 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </header>
 
         {/* Main Scrollable Content */}
-        <main className="flex-1 overflow-y-auto bg-[#F8FAFC] p-4 sm:p-7 lg:p-9">
+        <main className="flex-1 overflow-y-auto bg-[#F8FAFC] p-3.5 sm:p-7 lg:p-9 pb-24 lg:pb-9">
           <div className="max-w-full mx-auto">
             {children}
           </div>
         </main>
       </div>
+
+      {/* ─── Ultra-Premium Mobile Bottom Navigation Dock (< lg) ─── */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0A1322]/95 backdrop-blur-xl border-t border-[#1B2A42] px-2 py-1 flex items-center justify-around safe-area-pb shadow-2xl">
+        <Link
+          href="/browse-vehicles"
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all relative ${
+            pathname === '/browse-vehicles' || pathname === '/' || pathname.startsWith('/vehicles') || pathname.startsWith('/vehicle')
+              ? 'text-rose-500 font-bold'
+              : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <Car size={19} />
+          <span className="text-[10px] mt-0.5 tracking-tight">Browse</span>
+        </Link>
+
+        <Link
+          href="/my-bids"
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all relative ${
+            pathname.startsWith('/my-bids') || pathname.startsWith('/bids')
+              ? 'text-rose-500 font-bold'
+              : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <div className="relative">
+            <Gavel size={19} />
+            {bidsCount > 0 && (
+              <span className="absolute -top-1 -right-2 px-1 min-w-[14px] h-[14px] bg-[#E11D48] text-white text-[9px] font-extrabold rounded-full flex items-center justify-center ring-1 ring-[#0A1322]">
+                {bidsCount}
+              </span>
+            )}
+          </div>
+          <span className="text-[10px] mt-0.5 tracking-tight">Bids</span>
+        </Link>
+
+        <Link
+          href="/watchlist"
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all relative ${
+            pathname.startsWith('/watchlist')
+              ? 'text-rose-500 font-bold'
+              : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <div className="relative">
+            <Heart size={19} />
+            {watchlistCount > 0 && (
+              <span className="absolute -top-1 -right-2 px-1 min-w-[14px] h-[14px] bg-slate-500 text-white text-[9px] font-extrabold rounded-full flex items-center justify-center ring-1 ring-[#0A1322]">
+                {watchlistCount}
+              </span>
+            )}
+          </div>
+          <span className="text-[10px] mt-0.5 tracking-tight">Saved</span>
+        </Link>
+
+        <Link
+          href="/purchases"
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all relative ${
+            pathname.startsWith('/purchases')
+              ? 'text-rose-500 font-bold'
+              : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <div className="relative">
+            <FileText size={19} />
+            {purchasesCount > 0 && (
+              <span className="absolute -top-1 -right-2 px-1 min-w-[14px] h-[14px] bg-emerald-600 text-white text-[9px] font-extrabold rounded-full flex items-center justify-center ring-1 ring-[#0A1322]">
+                {purchasesCount}
+              </span>
+            )}
+          </div>
+          <span className="text-[10px] mt-0.5 tracking-tight">Purchases</span>
+        </Link>
+
+        <button
+          onClick={() => setMobileMenuOpen(true)}
+          className="flex flex-col items-center justify-center py-1 px-2.5 rounded-xl text-slate-400 hover:text-slate-200 transition-all cursor-pointer"
+          title="Open menu"
+        >
+          <Menu size={19} />
+          <span className="text-[10px] mt-0.5 tracking-tight">More</span>
+        </button>
+      </nav>
 
       {/* Wishlist Header Modal */}
       <WishlistHeaderModal

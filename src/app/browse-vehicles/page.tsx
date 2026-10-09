@@ -353,7 +353,7 @@ function BrowseVehiclesContent() {
         </div>
 
         {/* Top Scope Tabs */}
-        <div className="flex items-center gap-2 self-start sm:self-center">
+        <div className="w-full sm:w-auto grid grid-cols-2 sm:flex items-center gap-2 self-start sm:self-center">
           <button
             onClick={() => {
               setActiveScope("wishlist");
@@ -364,13 +364,13 @@ function BrowseVehiclesContent() {
                 window.history.replaceState({}, "", url.toString());
               }
             }}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all border ${activeScope === "wishlist"
+            className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all border ${activeScope === "wishlist"
               ? "bg-[#E11D48] text-white border-[#E11D48] shadow-sm shadow-rose-950/20"
               : "bg-white text-[#111827] border-[#CBD5E1] hover:text-[#111C2D] hover:bg-rose-50/50"
               }`}
           >
             <Heart size={15} className={activeScope === "wishlist" ? "fill-white" : "text-[#E11D48]"} />
-            <span>Matching Vehicles ({matchedWishlistVehicles.length})</span>
+            <span className="truncate">Matching ({matchedWishlistVehicles.length})</span>
           </button>
           <button
             onClick={() => {
@@ -382,13 +382,13 @@ function BrowseVehiclesContent() {
                 window.history.replaceState({}, "", url.toString());
               }
             }}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all border ${activeScope === "all"
+            className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all border ${activeScope === "all"
               ? "bg-[#E11D48] hover:bg-[#BE123C] text-white border-[#E11D48] shadow-md shadow-rose-950/40 transition-all flex items-center gap-2"
               : "bg-white text-[#64748B] border-[#CBD5E1] hover:text-[#111C2D] hover:bg-[#F8FAFC]"
               }`}
           >
             <Car size={15} />
-            <span>All Auction Stock ({allCars.length})</span>
+            <span className="truncate">All Stock ({allCars.length})</span>
           </button>
         </div>
       </div>
@@ -623,14 +623,14 @@ function BrowseVehiclesContent() {
           </div>
 
           {/* Quick Listing Type Filter Pills */}
-          <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl border border-slate-200">
+          <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl border border-slate-200 overflow-x-auto no-scrollbar max-w-full">
             <button
               type="button"
               onClick={() => {
                 setSelectedListingType("all");
                 setCurrentPage(1);
               }}
-              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${selectedListingType === "all"
+              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${selectedListingType === "all"
                 ? "bg-white text-[#111C2D] shadow-xs"
                 : "text-[#64748B] hover:text-[#111C2D]"
                 }`}
@@ -643,7 +643,7 @@ function BrowseVehiclesContent() {
                 setSelectedListingType("reserve");
                 setCurrentPage(1);
               }}
-              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${selectedListingType === "reserve"
+              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${selectedListingType === "reserve"
                 ? "bg-emerald-600 text-white shadow-xs"
                 : "text-emerald-700 hover:text-emerald-900"
                 }`}
@@ -657,7 +657,7 @@ function BrowseVehiclesContent() {
                 setSelectedListingType("auction");
                 setCurrentPage(1);
               }}
-              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${selectedListingType === "auction"
+              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${selectedListingType === "auction"
                 ? "bg-blue-600 text-white shadow-xs"
                 : "text-blue-700 hover:text-blue-900"
                 }`}
@@ -668,7 +668,7 @@ function BrowseVehiclesContent() {
           </div>
         </div>
 
-        <div className="flex items-center gap-3 self-end sm:self-auto">
+        <div className="flex items-center justify-between sm:justify-end gap-3 w-full lg:w-auto">
           {/* Sort By */}
           <div className="flex items-center gap-2 text-xs text-[#64748B]">
             <span className="font-medium hidden sm:inline">Sort by</span>
@@ -724,7 +724,7 @@ function BrowseVehiclesContent() {
       {currentVehicles.length === 0 ? (
         <div className="bg-white rounded-2xl p-12 text-center border border-[#E2E8F0] shadow-sm">
           <Car size={44} className="mx-auto text-[#94A3B8] mb-3" />
-          <h3 className="text-base font-bold text-[#111C2D]">No Vehicles Found</h3>
+          <h3 className="text-base font-bold text-[#111827]">No Vehicles Found</h3>
           <p className="text-xs text-[#64748B] max-w-sm mx-auto mt-1 mb-5">
             No stock matching your current criteria. Try adjusting make, model, or year.
           </p>
@@ -736,7 +736,7 @@ function BrowseVehiclesContent() {
           </button>
         </div>
       ) : viewMode === "grid" ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 sm:gap-6">
           {currentVehicles.map((vehicle, index) => {
             const photoUrl = getVehiclePhoto(vehicle);
             const landed = calculateLandedCost(vehicle.priceFob);
