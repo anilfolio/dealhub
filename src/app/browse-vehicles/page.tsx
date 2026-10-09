@@ -825,25 +825,8 @@ function BrowseVehiclesContent() {
                 <div className="p-5 flex-1 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-1.5">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[11px] text-[#94A3B8] font-mono font-semibold">
-                          Stockid #{vehicle.stockId}
-                        </span>
-                        {/* Differentiated Card Type Badge */}
-                        {isReserve ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-emerald-50 text-emerald-800 border border-emerald-200">
-                            <Clock size={10} className="text-emerald-600" />
-                            Enquire / Reserve
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-blue-50 text-blue-800 border border-blue-200">
-                            <Gavel size={10} className="text-blue-600" />
-                            Auction / Bid
-                          </span>
-                        )}
-                      </div>
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200 shrink-0">
-                        Condition {getVehicleConditionScore(vehicle)}/10
+                      <span className="text-[11px] text-[#94A3B8] font-mono font-semibold">
+                        Stockid #{vehicle.stockId}
                       </span>
                     </div>
 
@@ -980,9 +963,6 @@ function BrowseVehiclesContent() {
                     <div className="flex items-center gap-2 mt-1">
                       <span className="text-[11px] text-[#94A3B8] font-mono">
                         Stockid #{vehicle.stockId}
-                      </span>
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
-                        Condition {getVehicleConditionScore(vehicle)}/10
                       </span>
                     </div>
                   </div>
