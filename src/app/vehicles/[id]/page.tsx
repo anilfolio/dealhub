@@ -31,6 +31,8 @@ import {
   FileCheck,
   Wind,
   X,
+  Copy,
+  Check,
 } from "lucide-react";
 import {
   HeiwaVehicle,
@@ -99,6 +101,15 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
     comparables: false,
     specs: false,
   });
+
+  const [copiedChassis, setCopiedChassis] = useState(false);
+  const handleCopyChassis = (chassis: string) => {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(chassis);
+      setCopiedChassis(true);
+      setTimeout(() => setCopiedChassis(false), 2000);
+    }
+  };
 
   const toggleSection = (key: string) => {
     setOpenSections((prev) => ({
@@ -493,11 +504,14 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
                       setEnquiryModalOpen(true);
                       setEnquirySuccess(false);
                     }}
-                    className="flex-1 py-3 px-4 bg-[#E11D48] hover:bg-[#BE123C] text-white rounded-xl text-xs sm:text-sm font-bold shadow-sm shadow-rose-900/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    className="flex-1 py-3 px-3 sm:px-4 bg-[#E11D48] hover:bg-[#BE123C] text-white rounded-xl text-xs sm:text-sm font-bold shadow-sm shadow-rose-900/20 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98"
                   >
                     <Clock size={16} />
-                    <span>
+                    <span className="hidden xs:inline">
                       Reserve (Fixed FOB ¥{vehicle.priceFob.toLocaleString("en-US")})
+                    </span>
+                    <span className="xs:hidden">
+                      Reserve (¥{vehicle.priceFob.toLocaleString("en-US")})
                     </span>
                   </button>
                 ) : (
@@ -506,11 +520,14 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
                       setBidModalOpen(true);
                       setBidSuccess(false);
                     }}
-                    className="flex-1 py-3 px-4 bg-[#E11D48] hover:bg-[#BE123C] text-white rounded-xl text-xs sm:text-sm font-bold shadow-sm shadow-rose-900/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    className="flex-1 py-3 px-3 sm:px-4 bg-[#E11D48] hover:bg-[#BE123C] text-white rounded-xl text-xs sm:text-sm font-bold shadow-sm shadow-rose-900/20 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98"
                   >
                     <Gavel size={16} />
-                    <span>
+                    <span className="hidden xs:inline">
                       Place Proxy Bid (Guide FOB ¥{vehicle.priceFob.toLocaleString("en-US")})
+                    </span>
+                    <span className="xs:hidden">
+                      Proxy Bid (¥{vehicle.priceFob.toLocaleString("en-US")})
                     </span>
                   </button>
                 )}
@@ -533,19 +550,33 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
         </div>
 
         {/* ─── INTELLIGENCE LAYER ACCORDION SUITE ─── */}
-        <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1">
-            <div>
-              <h2 className="text-lg font-bold text-[#111C2D] flex items-center gap-2">
-                <Layers size={18} className="text-[#E11D48]" />
-                <span>Vehicle Intelligence Suite</span>
-              </h2>
+        <div className="space-y-3 sm:space-y-4">
+          <div className="flex items-center justify-between gap-3 pb-1">
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-rose-50 text-[#E11D48] border border-rose-100 flex items-center justify-center shrink-0">
+                  <Layers size={17} />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-base sm:text-lg font-extrabold text-[#111C2D] tracking-tight">
+                      Vehicle Intelligence Suite
+                    </h2>
+                    <span className="hidden xs:inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
+                      4 Modules
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-[#64748B] hidden sm:block mt-0.5">
+                    Live landed calculation, Trade Me market benchmarks, and Japanese auction inspection report.
+                  </p>
+                </div>
+              </div>
             </div>
 
             <button
               type="button"
               onClick={toggleAllSections}
-              className="px-3.5 py-1.5 bg-white hover:bg-slate-50 text-[#111C2D] border border-slate-200 rounded-xl text-xs font-semibold transition-all shadow-2xs hover:border-slate-300 flex items-center gap-1.5 self-start sm:self-auto cursor-pointer"
+              className="px-3 sm:px-3.5 py-1.5 bg-white hover:bg-slate-50 text-[#111C2D] border border-slate-200 rounded-xl text-xs font-bold transition-all shadow-2xs hover:border-slate-300 flex items-center gap-1.5 shrink-0 active:scale-95 cursor-pointer"
             >
               <span>{allSectionsOpen ? "Collapse All" : "Expand All"}</span>
               <ChevronDown
@@ -560,53 +591,145 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
             <button
               type="button"
               onClick={() => toggleSection("landed_cost")}
-              className={`w-full p-4 sm:p-5 flex items-center justify-between gap-4 text-left transition-colors cursor-pointer select-none ${openSections.landed_cost ? "bg-slate-50/60 border-b border-slate-100" : "hover:bg-slate-50/80"
-                }`}
+              className={`w-full p-3.5 sm:p-5 flex items-center justify-between gap-2.5 sm:gap-4 text-left transition-colors cursor-pointer select-none active:bg-slate-100/60 ${
+                openSections.landed_cost ? "bg-slate-50/70 border-b border-slate-100" : "hover:bg-slate-50/80"
+              }`}
             >
-              <div className="flex items-center gap-3.5 min-w-0">
-                <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center shrink-0">
-                  <DollarSign size={20} />
+              <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0 flex-1">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center shrink-0 shadow-2xs">
+                  <DollarSign size={19} />
                 </div>
-                <div className="truncate">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm sm:text-base font-bold text-[#111C2D]">
-                      Estimated Landed Cost
-                    </span>
-                  </div>
+                <div className="min-w-0 flex-1">
+                  <span className="text-xs sm:text-base font-extrabold text-[#111C2D] truncate block">
+                    Estimated Landed Cost
+                  </span>
+                  <span className="text-[10px] sm:text-xs text-[#64748B] truncate block mt-0.5">
+                    Japan FOB ➔ NZ Dealership Door
+                  </span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 shrink-0">
-                <span className="font-mono text-xs font-bold text-[#E11D48] bg-rose-50 border border-rose-200/80 px-3 py-1 rounded-lg">
-                  NZ${landed.totalLanded.toLocaleString("en-US")} Landed
+              <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                <span className="font-mono text-[11px] sm:text-xs font-extrabold text-[#E11D48] bg-rose-50 border border-rose-200/80 px-2 sm:px-3 py-1 rounded-lg shrink-0">
+                  NZ${landed.totalLanded.toLocaleString("en-US")}
                 </span>
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 bg-slate-100 transition-transform duration-200 ${openSections.landed_cost ? "rotate-180 text-slate-700" : ""}`}>
-                  <ChevronDown size={16} />
+                <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center transition-all duration-200 ${openSections.landed_cost ? "rotate-180 bg-[#111C2D] text-white shadow-xs" : "bg-slate-100 text-slate-500"}`}>
+                  <ChevronDown size={15} />
                 </div>
               </div>
             </button>
 
             {openSections.landed_cost && (
-              <div className="p-6 space-y-6 animate-fadeIn">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#F1F5F9]">
-                  <div>
-                    <h3 className="text-sm font-bold text-[#111C2D] flex items-center gap-2">
-                      <DollarSign size={16} className="text-[#E11D48]" />
-                      <span>Estimated Landed Cost (Japan Auction ➔ NZ Dealership Door)</span>
-                    </h3>
+              <div className="p-3.5 sm:p-6 space-y-4 sm:space-y-6 animate-fadeIn">
+                {/* FX & Benchmark Strip */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 p-3 sm:p-3.5 bg-slate-50/80 rounded-xl border border-slate-200/80">
+                  <div className="flex items-center gap-2 text-xs">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                    <span className="font-bold text-[#111C2D]">Japan Auction ➔ NZ Dealership Door</span>
                   </div>
 
-                  <div className="text-right">
-                    <span className="text-[10px] text-[#8899A6] font-bold uppercase block">
-                      Benchmark FX Rate
-                    </span>
-                    <span className="font-mono text-xs font-bold text-[#111C2D]">
+                  <div className="flex items-center gap-2 text-[11px] sm:text-xs text-[#536471]">
+                    <span>Commercial FX Benchmark:</span>
+                    <span className="font-mono font-bold text-[#111C2D] bg-white px-2 py-0.5 rounded border border-slate-200 shadow-2xs">
                       1 NZD = {LANDED_COST_CONSTANTS.fxRate} JPY
                     </span>
                   </div>
                 </div>
 
-                <div className="border border-[#E8ECF0] rounded-xl overflow-hidden shadow-2xs">
+                {/* ── Mobile-Only Card Pipeline Breakdown (< md) ── */}
+                <div className="block md:hidden space-y-2.5">
+                  {/* Step 1: Japan FOB */}
+                  <div className="p-3 bg-white rounded-xl border border-slate-200/90 shadow-2xs space-y-1">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-bold text-[#111C2D]">Japan FOB Auction Purchase</span>
+                      <span className="font-mono font-extrabold text-[#111C2D]">
+                        NZ${landed.fobNzd.toLocaleString("en-US")}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-[10.5px] text-[#64748B]">
+                      <span>Benchmark rate ¥{LANDED_COST_CONSTANTS.fxRate}</span>
+                      <span className="font-mono">¥{vehicle.priceFob.toLocaleString("en-US")}</span>
+                    </div>
+                  </div>
+
+                  {/* Step 2: Ocean Freight */}
+                  <div className="p-3 bg-white rounded-xl border border-slate-200/90 shadow-2xs space-y-1">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-bold text-[#111C2D]">Ocean RoRo Freight & Transit Marine</span>
+                      <span className="font-mono font-bold text-[#111C2D]">
+                        NZ${landed.freight.toLocaleString("en-US")}
+                      </span>
+                    </div>
+                    <p className="text-[10.5px] text-[#64748B]">
+                      Yokohama / Nagoya to Ports of Auckland / Tauranga
+                    </p>
+                  </div>
+
+                  {/* Step 3: MAF & Compliance */}
+                  <div className="p-3 bg-white rounded-xl border border-slate-200/90 shadow-2xs space-y-1">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-bold text-[#111C2D]">NZ MAF Bio-Security & Entry Compliance</span>
+                      <span className="font-mono font-bold text-[#111C2D]">
+                        NZ${landed.compliance.toLocaleString("en-US")}
+                      </span>
+                    </div>
+                    <p className="text-[10.5px] text-[#64748B]">
+                      JEVIC inspection, heat treatment & NZTA entry compliance
+                    </p>
+                  </div>
+
+                  {/* Step 4: Port Logistics */}
+                  <div className="p-3 bg-white rounded-xl border border-slate-200/90 shadow-2xs space-y-1">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-bold text-[#111C2D]">Port Logistics & Document Clearing</span>
+                      <span className="font-mono font-bold text-[#111C2D]">
+                        NZ${landed.portFees.toLocaleString("en-US")}
+                      </span>
+                    </div>
+                    <p className="text-[10.5px] text-[#64748B]">
+                      Wharfage, customs EDI dispatch & documentation
+                    </p>
+                  </div>
+
+                  {/* Step 5: GST */}
+                  <div className="p-3 bg-slate-50/70 rounded-xl border border-slate-200/90 shadow-2xs space-y-1">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-bold text-[#111C2D]">GST (15% on CIF + Compliance)</span>
+                      <span className="font-mono font-bold text-[#111C2D]">
+                        NZ${landed.gst.toLocaleString("en-US")}
+                      </span>
+                    </div>
+                    <p className="text-[10.5px] text-[#64748B]">
+                      Inland Revenue GST payable at border (Claimable on GST return)
+                    </p>
+                  </div>
+
+                  {/* Mobile Grand Total Card */}
+                  <div className="p-4 rounded-xl bg-gradient-to-br from-rose-50/90 via-white to-rose-50/40 border-2 border-[#E11D48]/30 shadow-2xs space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-extrabold uppercase text-[#E11D48] tracking-wider">
+                        Total Landed Cost (Yard Ready)
+                      </span>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-100 text-[#E11D48]">
+                        All-Inclusive
+                      </span>
+                    </div>
+                    <div className="flex items-baseline justify-between pt-0.5">
+                      <span className="text-xl font-black font-mono text-[#E11D48]">
+                        NZ${landed.totalLanded.toLocaleString("en-US")}
+                      </span>
+                      <span className="text-[11px] font-mono text-[#536471]">
+                        ¥{vehicle.priceFob.toLocaleString("en-US")} FOB
+                      </span>
+                    </div>
+                    <p className="text-[10.5px] text-[#536471] leading-relaxed">
+                      All-inclusive calculated landed benchmark to your yard door.
+                    </p>
+                  </div>
+                </div>
+
+                {/* ── Desktop & Tablet Table (md+) ── */}
+                <div className="hidden md:block border border-[#E8ECF0] rounded-xl overflow-hidden shadow-2xs">
                   <table className="w-full text-left text-xs">
                     <thead className="bg-[#F8FAFC] border-b border-[#E8ECF0] text-[10px] font-bold text-[#8899A6] uppercase tracking-wider">
                       <tr>
@@ -622,7 +745,7 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
                           Japan FOB Auction Purchase Price
                         </td>
                         <td className="py-3 px-4 text-[#536471]">
-                          Converted at commercial benchmark rate ¥91.24
+                          Converted at commercial benchmark rate ¥{LANDED_COST_CONSTANTS.fxRate}
                         </td>
                         <td className="py-3 px-4 text-right font-mono text-[#536471]">
                           ¥{vehicle.priceFob.toLocaleString("en-US")}
@@ -710,79 +833,115 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
             <button
               type="button"
               onClick={() => toggleSection("nz_market")}
-              className={`w-full p-4 sm:p-5 flex items-center justify-between gap-4 text-left transition-colors cursor-pointer select-none ${openSections.nz_market ? "bg-slate-50/60 border-b border-slate-100" : "hover:bg-slate-50/80"
-                }`}
+              className={`w-full p-3.5 sm:p-5 flex items-center justify-between gap-2.5 sm:gap-4 text-left transition-colors cursor-pointer select-none active:bg-slate-100/60 ${
+                openSections.nz_market ? "bg-slate-50/70 border-b border-slate-100" : "hover:bg-slate-50/80"
+              }`}
             >
-              <div className="flex items-center gap-3.5 min-w-0">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center shrink-0">
-                  <TrendingUp size={20} />
+              <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0 flex-1">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center shrink-0 shadow-2xs">
+                  <TrendingUp size={19} />
                 </div>
-                <div className="truncate">
-                  <span className="text-sm sm:text-base font-bold text-[#111C2D]">
+                <div className="min-w-0 flex-1">
+                  <span className="text-xs sm:text-base font-extrabold text-[#111C2D] truncate block">
                     NZ Market Comparison
+                  </span>
+                  <span className="text-[10px] sm:text-xs text-[#64748B] truncate block mt-0.5">
+                    Trade Me & dealer profit spread
                   </span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 shrink-0">
-                <span className="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-3 py-1 rounded-lg">
-                  +NZ${grossMargin.toLocaleString("en-US")} ({marginPercent}%) Margin
+              <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                <span className="font-mono text-[11px] sm:text-xs font-extrabold text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2 sm:px-3 py-1 rounded-lg shrink-0">
+                  +NZ${grossMargin.toLocaleString("en-US")} ({marginPercent}%)
                 </span>
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 bg-slate-100 transition-transform duration-200 ${openSections.nz_market ? "rotate-180 text-slate-700" : ""}`}>
-                  <ChevronDown size={16} />
+                <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center transition-all duration-200 ${openSections.nz_market ? "rotate-180 bg-[#111C2D] text-white shadow-xs" : "bg-slate-100 text-slate-500"}`}>
+                  <ChevronDown size={15} />
                 </div>
               </div>
             </button>
 
             {openSections.nz_market && (
-              <div className="p-5 sm:p-6 space-y-4 animate-fadeIn">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-soft hover:shadow-soft-md transition-shadow">
-                    <div className="text-[11px] font-bold text-[#8899A6] uppercase tracking-wider">
+              <div className="p-3.5 sm:p-6 space-y-3.5 sm:space-y-4 animate-fadeIn">
+                {/* 2-column on mobile, 4-column on lg */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+                  <div className="bg-white p-3.5 sm:p-5 rounded-2xl border border-slate-200/90 shadow-soft hover:shadow-soft-md transition-shadow">
+                    <div className="text-[10px] sm:text-[11px] font-bold text-[#8899A6] uppercase tracking-wider">
                       NZ Market Range
                     </div>
-                    <div className="text-lg font-extrabold text-[#111C2D] font-mono mt-1">
+                    <div className="text-sm sm:text-lg font-extrabold text-[#111C2D] font-mono mt-1">
                       NZ${lowestNzPrice.toLocaleString("en-US")} - ${highestNzPrice.toLocaleString("en-US")}
                     </div>
-                    <div className="text-xs text-[#536471] mt-1">
-                      Lowest to highest asking price in NZ
+                    <div className="text-[10.5px] sm:text-xs text-[#536471] mt-1">
+                      Min to max asking in NZ
                     </div>
                   </div>
 
-                  <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-soft hover:shadow-soft-md transition-shadow">
-                    <div className="text-[11px] font-bold text-[#8899A6] uppercase tracking-wider">
+                  <div className="bg-white p-3.5 sm:p-5 rounded-2xl border border-slate-200/90 shadow-soft hover:shadow-soft-md transition-shadow">
+                    <div className="text-[10px] sm:text-[11px] font-bold text-[#8899A6] uppercase tracking-wider">
                       Gross Profit Margin
                     </div>
-                    <div className="text-lg font-extrabold text-emerald-600 font-mono mt-1">
+                    <div className="text-sm sm:text-lg font-extrabold text-emerald-600 font-mono mt-1">
                       +NZ${grossMargin.toLocaleString("en-US")} ({marginPercent}%)
                     </div>
-                    <div className="text-xs text-[#536471] mt-1">
-                      Vs average NZ dealer retail asking
+                    <div className="text-[10.5px] sm:text-xs text-[#536471] mt-1">
+                      Vs average NZ retail asking
                     </div>
                   </div>
 
-                  <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-soft hover:shadow-soft-md transition-shadow">
-                    <div className="text-[11px] font-bold text-[#8899A6] uppercase tracking-wider">
+                  <div className="bg-white p-3.5 sm:p-5 rounded-2xl border border-slate-200/90 shadow-soft hover:shadow-soft-md transition-shadow">
+                    <div className="text-[10px] sm:text-[11px] font-bold text-[#8899A6] uppercase tracking-wider">
                       Market Liquidity
                     </div>
-                    <div className="text-lg font-extrabold text-[#111C2D] font-mono mt-1">
+                    <div className="text-sm sm:text-lg font-extrabold text-[#111C2D] font-mono mt-1">
                       {avgDaysListed} Days
                     </div>
-                    <div className="text-xs text-emerald-600 font-semibold mt-1">
+                    <div className="text-[10.5px] sm:text-xs text-emerald-600 font-semibold mt-1">
                       Fast Selling Model in NZ
                     </div>
                   </div>
 
-                  <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-soft hover:shadow-soft-md transition-shadow">
-                    <div className="text-[11px] font-bold text-[#8899A6] uppercase tracking-wider">
+                  <div className="bg-white p-3.5 sm:p-5 rounded-2xl border border-slate-200/90 shadow-soft hover:shadow-soft-md transition-shadow">
+                    <div className="text-[10px] sm:text-[11px] font-bold text-[#8899A6] uppercase tracking-wider">
                       Margin Health Rating
                     </div>
-                    <div className="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 mt-1">
-                      <CheckCircle2 size={13} /> High Demand Sourcing
+                    <div className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold px-2 sm:px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 mt-1">
+                      <CheckCircle2 size={12} /> High Demand
                     </div>
-                    <div className="text-xs text-[#536471] mt-1.5">
-                      Competitive vs Trade Me listings
+                    <div className="text-[10.5px] sm:text-xs text-[#536471] mt-1">
+                      Competitive vs Trade Me
                     </div>
+                  </div>
+                </div>
+
+                {/* Visual Margin & Market Spread Gauge */}
+                <div className="p-3.5 sm:p-4 bg-slate-50/90 rounded-2xl border border-slate-200/90 space-y-2.5">
+                  <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-1 text-xs">
+                    <span className="font-bold text-[#111C2D] flex items-center gap-1.5">
+                      <TrendingUp size={14} className="text-emerald-600" />
+                      <span>DealHub Landed vs NZ Market Retail Spread</span>
+                    </span>
+                    <span className="font-mono font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded text-[11px] self-start xs:self-auto">
+                      +NZ${grossMargin.toLocaleString("en-US")} Dealer Margin
+                    </span>
+                  </div>
+
+                  {/* Visual Bar */}
+                  <div className="relative h-2.5 sm:h-3 w-full bg-slate-200 rounded-full overflow-hidden flex shadow-inner">
+                    <div
+                      style={{ width: `${Math.min(Math.max((landed.totalLanded / avgNzPrice) * 100, 40), 85)}%` }}
+                      className="bg-slate-700 h-full relative"
+                      title={`DealHub Landed Cost: NZ$${landed.totalLanded.toLocaleString("en-US")}`}
+                    />
+                    <div
+                      className="bg-emerald-500 h-full flex-1 relative"
+                      title={`Dealer Gross Margin: +NZ$${grossMargin.toLocaleString("en-US")}`}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-[#536471]">
+                    <span>DealHub Landed: <strong className="text-[#111C2D]">NZ${landed.totalLanded.toLocaleString("en-US")}</strong></span>
+                    <span>Avg NZ Retail: <strong className="text-[#111C2D]">NZ${avgNzPrice.toLocaleString("en-US")}</strong></span>
                   </div>
                 </div>
               </div>
@@ -794,44 +953,114 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
             <button
               type="button"
               onClick={() => toggleSection("comparables")}
-              className={`w-full p-4 sm:p-5 flex items-center justify-between gap-4 text-left transition-colors cursor-pointer select-none ${openSections.comparables ? "bg-slate-50/60 border-b border-slate-100" : "hover:bg-slate-50/80"
-                }`}
+              className={`w-full p-3.5 sm:p-5 flex items-center justify-between gap-2.5 sm:gap-4 text-left transition-colors cursor-pointer select-none active:bg-slate-100/60 ${
+                openSections.comparables ? "bg-slate-50/70 border-b border-slate-100" : "hover:bg-slate-50/80"
+              }`}
             >
-              <div className="flex items-center gap-3.5 min-w-0">
-                <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 border border-purple-100 flex items-center justify-center shrink-0">
-                  <Car size={20} />
+              <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0 flex-1">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-purple-50 text-purple-600 border border-purple-100 flex items-center justify-center shrink-0 shadow-2xs">
+                  <Car size={19} />
                 </div>
-                <div className="truncate">
-                  <span className="text-sm sm:text-base font-bold text-[#111C2D]">
+                <div className="min-w-0 flex-1">
+                  <span className="text-xs sm:text-base font-extrabold text-[#111C2D] truncate block">
                     Comparable Listings
+                  </span>
+                  <span className="text-[10px] sm:text-xs text-[#64748B] truncate block mt-0.5">
+                    Trade Me Motors & Turners live benchmarks
                   </span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 shrink-0">
-                <span className="font-semibold text-xs text-slate-700 bg-slate-100 border border-slate-200/80 px-3 py-1 rounded-lg">
+              <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                <span className="font-semibold text-[11px] sm:text-xs text-slate-700 bg-slate-100 border border-slate-200/80 px-2 sm:px-3 py-1 rounded-lg shrink-0">
                   {comparables.length} live comparables
                 </span>
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 bg-slate-100 transition-transform duration-200 ${openSections.comparables ? "rotate-180 text-slate-700" : ""}`}>
-                  <ChevronDown size={16} />
+                <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center transition-all duration-200 ${openSections.comparables ? "rotate-180 bg-[#111C2D] text-white shadow-xs" : "bg-slate-100 text-slate-500"}`}>
+                  <ChevronDown size={15} />
                 </div>
               </div>
             </button>
 
             {openSections.comparables && (
               <div className="animate-fadeIn">
-                <div className="p-5 border-b border-[#E8ECF0] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#F8FAFC]">
-                  <div>
-                    <h3 className="text-sm font-bold text-[#111C2D]">
-                      Similar NZ Market Listings (Trade Me Motors, Turners, AutoTrader)
-                    </h3>
-                  </div>
-                  <div className="text-xs font-semibold text-slate-700 bg-white px-3 py-1.5 rounded-lg border border-[#E8ECF0]">
+                <div className="p-3.5 sm:p-5 border-b border-[#E8ECF0] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-[#F8FAFC]">
+                  <h3 className="text-xs sm:text-sm font-bold text-[#111C2D]">
+                    Similar NZ Market Listings (Trade Me Motors, Turners, AutoTrader)
+                  </h3>
+                  <div className="text-[11px] sm:text-xs font-semibold text-slate-700 bg-white px-2.5 sm:px-3 py-1 rounded-lg border border-[#E8ECF0] self-start sm:self-auto">
                     {comparables.length} live market comparables
                   </div>
                 </div>
 
-                <div className="overflow-x-auto">
+                {/* ── Mobile Native Cards (< md) ── */}
+                <div className="block md:hidden p-3.5 space-y-2.5">
+                  {comparables.map((comp, idx) => {
+                    const compMargin = comp.price - landed.totalLanded;
+                    const isPositive = compMargin > 0;
+
+                    return (
+                      <div
+                        key={idx}
+                        className="p-3.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs space-y-2"
+                      >
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="font-bold text-[#111C2D] flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-blue-500" />
+                            {comp.source}
+                          </span>
+                          <span className="text-[11px] text-[#64748B] flex items-center gap-1">
+                            <Clock size={11} className="text-[#8899A6]" />
+                            {comp.daysListed}d on market
+                          </span>
+                        </div>
+
+                        <div className="font-extrabold text-xs text-[#111C2D] leading-snug">
+                          {comp.title}
+                        </div>
+
+                        <div className="flex items-center gap-2.5 text-[11px] text-[#64748B] font-mono">
+                          <span>{comp.kms.toLocaleString("en-US")} km</span>
+                          <span>·</span>
+                          <span className="flex items-center gap-1">
+                            <MapPin size={11} className="text-[#8899A6]" />
+                            {comp.location}
+                          </span>
+                        </div>
+
+                        <div className="flex items-center justify-between pt-1.5 border-t border-slate-100">
+                          <div>
+                            <span className="text-[9.5px] font-bold text-[#8899A6] uppercase tracking-wider block">
+                              Advertised Price
+                            </span>
+                            <span className="font-mono font-extrabold text-[#111C2D] text-sm">
+                              NZ${comp.price.toLocaleString("en-US")}
+                            </span>
+                          </div>
+
+                          <div className="text-right">
+                            <span className="text-[9.5px] font-bold text-[#8899A6] uppercase tracking-wider block">
+                              Margin vs Landed
+                            </span>
+                            <span
+                              className={`inline-block font-mono font-bold text-xs px-2 py-0.5 rounded ${
+                                isPositive
+                                  ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                                  : "bg-rose-50 text-rose-700 border border-rose-200"
+                              }`}
+                            >
+                              {isPositive
+                                ? `+NZ$${compMargin.toLocaleString("en-US")}`
+                                : `-NZ$${Math.abs(compMargin).toLocaleString("en-US")}`}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* ── Desktop Table (md+) ── */}
+                <div className="hidden md:block overflow-x-auto">
                   <table className="w-full text-left text-xs">
                     <thead className="bg-[#FAFBFC] border-b border-[#E8ECF0] text-[10px] font-bold text-[#8899A6] uppercase tracking-wider">
                       <tr>
@@ -878,10 +1107,11 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
                             </td>
                             <td className="py-3.5 px-5 text-right">
                               <span
-                                className={`inline-block font-mono font-bold text-xs px-2 py-0.5 rounded ${isPositive
-                                  ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                                  : "bg-rose-50 text-rose-700 border border-rose-200"
-                                  }`}
+                                className={`inline-block font-mono font-bold text-xs px-2 py-0.5 rounded ${
+                                  isPositive
+                                    ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                                    : "bg-rose-50 text-rose-700 border border-rose-200"
+                                }`}
                               >
                                 {isPositive
                                   ? `+NZ$${compMargin.toLocaleString("en-US")}`
@@ -903,105 +1133,176 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
             <button
               type="button"
               onClick={() => toggleSection("specs")}
-              className={`w-full p-4 sm:p-5 flex items-center justify-between gap-4 text-left transition-colors cursor-pointer select-none ${openSections.specs ? "bg-slate-50/60 border-b border-slate-100" : "hover:bg-slate-50/80"
-                }`}
+              className={`w-full p-3.5 sm:p-5 flex items-center justify-between gap-2.5 sm:gap-4 text-left transition-colors cursor-pointer select-none active:bg-slate-100/60 ${
+                openSections.specs ? "bg-slate-50/70 border-b border-slate-100" : "hover:bg-slate-50/80"
+              }`}
             >
-              <div className="flex items-center gap-3.5 min-w-0">
-                <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 border border-amber-100 flex items-center justify-center shrink-0">
-                  <FileCheck size={20} />
+              <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0 flex-1">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-amber-50 text-amber-600 border border-amber-100 flex items-center justify-center shrink-0 shadow-2xs">
+                  <FileCheck size={19} />
                 </div>
-                <div className="truncate">
-                  <span className="text-sm sm:text-base font-bold text-[#111C2D]">
+                <div className="min-w-0 flex-1">
+                  <span className="text-xs sm:text-base font-extrabold text-[#111C2D] truncate block">
                     Inspection & Specs
+                  </span>
+                  <span className="text-[10px] sm:text-xs text-[#64748B] truncate block mt-0.5">
+                    USS Tokyo grading & chassis telemetry
                   </span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 shrink-0">
-                <span className="font-semibold text-xs text-blue-700 bg-blue-50 border border-blue-200/80 px-3 py-1 rounded-lg">
+              <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                <span className="font-semibold text-[11px] sm:text-xs text-blue-700 bg-blue-50 border border-blue-200/80 px-2 sm:px-3 py-1 rounded-lg shrink-0">
                   Grade {vehicle.grade || "4.0"} · {vehicle.kms.toLocaleString("en-US")} km
                 </span>
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 bg-slate-100 transition-transform duration-200 ${openSections.specs ? "rotate-180 text-slate-700" : ""}`}>
-                  <ChevronDown size={16} />
+                <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center transition-all duration-200 ${openSections.specs ? "rotate-180 bg-[#111C2D] text-white shadow-xs" : "bg-slate-100 text-slate-500"}`}>
+                  <ChevronDown size={15} />
                 </div>
               </div>
             </button>
 
             {openSections.specs && (
-              <div className="p-6 space-y-6 animate-fadeIn">
-                <div className="flex items-center justify-between pb-3 border-b border-[#F1F5F9]">
-                  <h3 className="text-base font-bold text-[#111C2D]">
-                    Heiwa Japan Vehicle Inspection Data
-                  </h3>
-                  <span className="text-xs font-mono text-[#8899A6]">
-                    Chassis: {vehicle.chassis}
-                  </span>
+              <div className="p-3.5 sm:p-6 space-y-4 sm:space-y-6 animate-fadeIn">
+                {/* Header Strip with Chassis & Copy */}
+                <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-2 pb-3 border-b border-[#F1F5F9]">
+                  <div className="flex items-center gap-2">
+                    <ShieldCheck size={16} className="text-emerald-600 shrink-0" />
+                    <h3 className="text-xs sm:text-sm font-bold text-[#111C2D]">
+                      Heiwa Japan Vehicle Inspection Data
+                    </h3>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => handleCopyChassis(vehicle.chassis)}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-mono font-bold rounded-lg border border-slate-200 transition-colors active:scale-95 cursor-pointer self-start xs:self-auto"
+                    title="Click to copy chassis number"
+                  >
+                    {copiedChassis ? (
+                      <>
+                        <Check size={12} className="text-emerald-600" />
+                        <span className="text-emerald-700">Chassis Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy size={12} className="text-slate-500" />
+                        <span>Chassis: {vehicle.chassis}</span>
+                      </>
+                    )}
+                  </button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="p-4 bg-[#F8FAFC] rounded-xl border border-[#E8ECF0] space-y-2.5">
-                    <span className="text-xs font-bold text-[#8899A6] uppercase tracking-wider block">
+                {/* Verification Badges */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                  <div className="p-2.5 bg-emerald-50/70 rounded-xl border border-emerald-200/80 flex items-center gap-2 text-emerald-800">
+                    <ShieldCheck size={14} className="text-emerald-600 shrink-0" />
+                    <span className="font-semibold text-[11px]">Heiwa Direct Auction Allocation</span>
+                  </div>
+                  <div className="p-2.5 bg-sky-50/70 rounded-xl border border-sky-200/80 flex items-center gap-2 text-sky-800">
+                    <CheckCircle2 size={14} className="text-sky-600 shrink-0" />
+                    <span className="font-semibold text-[11px]">JEVIC & NZTA Compliance Ready</span>
+                  </div>
+                  <div className="p-2.5 bg-indigo-50/70 rounded-xl border border-indigo-200/80 flex items-center gap-2 text-indigo-800">
+                    <Gauge size={14} className="text-indigo-600 shrink-0" />
+                    <span className="font-semibold text-[11px]">Certified Japanese Odometer</span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                  {/* Card 1: Mechanical & Chassis */}
+                  <div className="p-3.5 sm:p-4 bg-[#F8FAFC] rounded-xl border border-[#E8ECF0] space-y-2.5">
+                    <span className="text-[10px] sm:text-xs font-bold text-[#8899A6] uppercase tracking-wider block">
                       Mechanical & Chassis
                     </span>
-                    <div className="flex justify-between text-xs py-1 border-b border-[#E8ECF0]">
+                    <div className="flex justify-between items-center text-xs py-1.5 border-b border-[#E8ECF0]">
                       <span className="text-[#536471]">Chassis ID:</span>
                       <span className="font-mono font-bold text-[#111C2D]">{vehicle.chassis}</span>
                     </div>
-                    <div className="flex justify-between text-xs py-1 border-b border-[#E8ECF0]">
+                    <div className="flex justify-between items-center text-xs py-1.5 border-b border-[#E8ECF0]">
                       <span className="text-[#536471]">Engine Displacement:</span>
                       <span className="font-bold text-[#111C2D]">
-                        {vehicle.cc > 0 ? `${vehicle.cc} cc` : "Electric"}
+                        {vehicle.cc > 0 ? `${vehicle.cc.toLocaleString("en-US")} cc` : "Electric"}
                       </span>
                     </div>
-                    <div className="flex justify-between text-xs py-1 border-b border-[#E8ECF0]">
+                    <div className="flex justify-between items-center text-xs py-1.5 border-b border-[#E8ECF0]">
                       <span className="text-[#536471]">Transmission:</span>
-                      <span className="font-bold text-[#111C2D]">{vehicle.trans}</span>
+                      <span className="font-bold text-[#111C2D]">
+                        {vehicle.trans === "FAT"
+                          ? "Floor Automatic (FAT)"
+                          : vehicle.trans === "DAT"
+                            ? "Direct AT (DAT)"
+                            : vehicle.trans === "AT"
+                              ? "Automatic (AT)"
+                              : vehicle.trans === "MT"
+                                ? "Manual (MT)"
+                                : vehicle.trans}
+                      </span>
                     </div>
-                    <div className="flex justify-between text-xs py-1 border-b border-[#E8ECF0]">
+                    <div className="flex justify-between items-center text-xs py-1.5 border-b border-[#E8ECF0]">
                       <span className="text-[#536471]">Fuel Type:</span>
                       <span className="font-bold text-[#111C2D]">
                         {vehicle.fuelType === "H"
-                          ? "Hybrid"
+                          ? "Hybrid (Petrol/Electric)"
                           : vehicle.fuelType === "D"
                             ? "Diesel"
                             : vehicle.fuelType === "E"
-                              ? "Electric"
+                              ? "Electric (EV)"
                               : "Petrol"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center text-xs py-1.5">
+                      <span className="text-[#536471]">Color Code:</span>
+                      <span className="font-bold text-[#111C2D] capitalize">
+                        {vehicle.colorDesc || vehicle.color}
                       </span>
                     </div>
                   </div>
 
-                  <div className="p-4 bg-[#F8FAFC] rounded-xl border border-[#E8ECF0] space-y-2.5">
-                    <span className="text-xs font-bold text-[#8899A6] uppercase tracking-wider block">
+                  {/* Card 2: Auction Grading & Interior */}
+                  <div className="p-3.5 sm:p-4 bg-[#F8FAFC] rounded-xl border border-[#E8ECF0] space-y-2.5">
+                    <span className="text-[10px] sm:text-xs font-bold text-[#8899A6] uppercase tracking-wider block">
                       Auction Grading & Interior
                     </span>
-                    <div className="flex justify-between text-xs py-1 border-b border-[#E8ECF0]">
+                    <div className="flex justify-between items-center text-xs py-1.5 border-b border-[#E8ECF0]">
                       <span className="text-[#536471]">Overall Auction Grade:</span>
                       <span className="font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">
                         Grade {vehicle.grade || "4.0"}
                       </span>
                     </div>
-                    <div className="flex justify-between text-xs py-1 border-b border-[#E8ECF0]">
+                    <div className="flex justify-between items-center text-xs py-1.5 border-b border-[#E8ECF0]">
                       <span className="text-[#536471]">Condition Score (1–10):</span>
-                      <span className="font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">
-                        {getVehicleConditionScore(vehicle)} / 10
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">
+                          {conditionScore} / 10
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex justify-between text-xs py-1 border-b border-[#E8ECF0]">
-                      <span className="text-[#536471]">A/C & Interior Condition:</span>
+                    <div className="flex justify-between items-center text-xs py-1.5 border-b border-[#E8ECF0]">
+                      <span className="text-[#536471]">A/C & Interior:</span>
                       <span className="font-bold text-[#111C2D]">{vehicle.ac || "Clean Grade B"}</span>
                     </div>
-                    <div className="flex justify-between text-xs py-1 border-b border-[#E8ECF0]">
-                      <span className="text-[#536471]">Equipment & Features:</span>
-                      <span className="font-mono text-[#111C2D] uppercase">
-                        {vehicle.equip || "PS, PW, ABS, Airbags"}
-                      </span>
-                    </div>
-                    <div className="flex justify-between text-xs py-1 border-b border-[#E8ECF0]">
-                      <span className="text-[#536471]">Odometer:</span>
+                    <div className="flex justify-between items-center text-xs py-1.5 border-b border-[#E8ECF0]">
+                      <span className="text-[#536471]">Certified Odometer:</span>
                       <span className="font-bold font-mono text-[#111C2D]">
                         {vehicle.kms.toLocaleString("en-US")} km
                       </span>
+                    </div>
+                    <div className="pt-1">
+                      <span className="text-[#536471] text-xs block mb-1.5">Equipment & Features:</span>
+                      <div className="flex flex-wrap gap-1">
+                        {(vehicle.equip || "PS, PW, ABS, Airbags")
+                          .split(/[,/·+]+/)
+                          .map((eq, i) => eq.trim())
+                          .filter(Boolean)
+                          .map((badge, i) => (
+                            <span
+                              key={i}
+                              className="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-800 text-[10.5px] font-bold font-mono shadow-2xs"
+                            >
+                              {badge}
+                            </span>
+                          ))}
+                      </div>
                     </div>
                   </div>
                 </div>
