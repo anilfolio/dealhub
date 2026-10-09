@@ -1167,7 +1167,7 @@ function BrowseVehiclesContent() {
                   </span>
                 </div>
                 <h3 className="text-lg font-extrabold text-[#111827] mt-0.5">
-                  Enquire / Reserve Vehicle
+                  Reserve Vehicle
                 </h3>
                 <p className="text-xs text-[#64748B] mt-0.5">
                   Lock in a 24-hour auction reservation or request inspector verification.

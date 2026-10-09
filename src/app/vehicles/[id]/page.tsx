@@ -239,7 +239,7 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
                 className="flex-1 sm:flex-initial justify-center flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-[#E11D48] hover:bg-[#BE123C] text-white shadow-sm shadow-rose-950/20 transition-all hover:shadow-md cursor-pointer"
               >
                 <Clock size={14} />
-                <span>Enquire / Reserve</span>
+                <span>Reserve</span>
               </button>
             ) : (
               <button
@@ -497,7 +497,7 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
                   >
                     <Clock size={16} />
                     <span>
-                      Enquire / Reserve (Fixed FOB ¥{vehicle.priceFob.toLocaleString("en-US")})
+                      Reserve (Fixed FOB ¥{vehicle.priceFob.toLocaleString("en-US")})
                     </span>
                   </button>
                 ) : (
@@ -1024,7 +1024,7 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
                     </span>
                   </div>
                   <h3 className="text-lg font-extrabold text-[#111827] mt-0.5">
-                    Enquire / Reserve Vehicle
+                    Reserve Vehicle
                   </h3>
                   <p className="text-xs text-[#64748B] mt-0.5">
                     Lock in a 24-hour fixed price reservation or request inspector verification.

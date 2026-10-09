@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { getStoredBids, getStoredWatchlist, getStoredPurchases } from '@/lib/dealerStore';
 import WishlistHeaderModal, { WishlistButton } from '@/components/layout/WishlistHeaderModal';
+import GlobalSearchModal from '@/components/layout/GlobalSearchModal';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -31,6 +32,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [headerSearchQuery, setHeaderSearchQuery] = useState('');
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [wishlistModalOpen, setWishlistModalOpen] = useState(false);
+  const [searchModalOpen, setSearchModalOpen] = useState(false);
 
   // Dynamic counts for sidebar badges
   const [bidsCount, setBidsCount] = useState<number>(0);
@@ -54,6 +56,25 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [userToggled]);
+
+  // Global Ctrl+K / Cmd+K / Slash search shortcut
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setSearchModalOpen((prev) => !prev);
+      }
+      if (
+        e.key === '/' &&
+        !['INPUT', 'TEXTAREA', 'SELECT'].includes((document.activeElement?.tagName || ''))
+      ) {
+        e.preventDefault();
+        setSearchModalOpen(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const toggleSidebar = () => {
     setIsCollapsed((prev) => !prev);
@@ -424,20 +445,34 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               )}
             </button>
 
-            {/* Search Input with ⌘K Badge */}
-            <form onSubmit={handleHeaderSearch} className="relative w-full min-w-0">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#9CA3AF]" />
-              <input
-                type="text"
-                value={headerSearchQuery}
-                onChange={(e) => setHeaderSearchQuery(e.target.value)}
-                placeholder="Search make, model, year..."
-                className="w-full pl-8.5 sm:pl-10 pr-6 sm:pr-12 py-1.5 sm:py-2 bg-white border border-[#E5E7EB] rounded-xl text-xs sm:text-sm text-[#111827] placeholder:text-[#9CA3AF] placeholder:text-[11px] sm:placeholder:text-sm outline-none focus:border-[#E11D48] focus:ring-1 focus:ring-[#E11D48] transition-all"
-              />
-              <span className="hidden sm:inline-block absolute right-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 text-[10px] font-semibold text-[#9CA3AF] bg-slate-100 border border-[#E5E7EB] rounded">
-                /
-              </span>
-            </form>
+            {/* Mobile View: Single Search Icon Button (no text input) */}
+            <button
+              type="button"
+              onClick={() => setSearchModalOpen(true)}
+              className="sm:hidden p-2 text-[#4B5563] hover:text-[#111827] rounded-xl hover:bg-slate-100 transition-colors shrink-0 cursor-pointer"
+              title="Search (Ctrl+K)"
+              aria-label="Search"
+            >
+              <Search size={20} />
+            </button>
+
+            {/* Tablet & Desktop View: Global Search Bar Trigger */}
+            <button
+              type="button"
+              onClick={() => setSearchModalOpen(true)}
+              className="hidden sm:flex items-center justify-between w-full pl-3.5 pr-2.5 py-2 bg-white hover:bg-slate-50 border border-[#E5E7EB] hover:border-slate-300 rounded-xl text-left text-xs sm:text-sm text-[#9CA3AF] transition-all group shadow-2xs cursor-pointer"
+              title="Search vehicles, stock ID, pages (Ctrl+K)"
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <Search size={15} className="text-[#9CA3AF] group-hover:text-[#111827] transition-colors shrink-0" />
+                <span className="truncate text-xs sm:text-[13px] text-slate-500 group-hover:text-slate-800">
+                  Search make, model, stock ID...
+                </span>
+              </div>
+              <kbd className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-semibold text-[#64748B] bg-slate-100 border border-[#E5E7EB] rounded tracking-wide shrink-0">
+                Ctrl+K
+              </kbd>
+            </button>
           </div>
 
           {/* Right Header: Wishlist Button + Notifications */}
@@ -549,6 +584,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <WishlistHeaderModal
         isOpen={wishlistModalOpen}
         onClose={() => setWishlistModalOpen(false)}
+      />
+
+      {/* Global Search Dialog (Ctrl+K) */}
+      <GlobalSearchModal
+        isOpen={searchModalOpen}
+        onClose={() => setSearchModalOpen(false)}
       />
     </div>
   );
