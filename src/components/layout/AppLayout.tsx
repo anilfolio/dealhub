@@ -110,7 +110,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       icon: Car,
       badge: null,
       activeCheck: (p: string) =>
-        p === '/browse-vehicles' || p === '/' || p.startsWith('/vehicles') || p.startsWith('/vehicle'),
+        p === '/browse-vehicles' || p === '/' || p.startsWith('/vehicles'),
     },
     {
       label: 'My Bids',
@@ -118,7 +118,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       icon: Gavel,
       badge: bidsCount > 0 ? bidsCount : null,
       badgeColor: 'rose',
-      activeCheck: (p: string) => p.startsWith('/my-bids') || p.startsWith('/bids'),
+      activeCheck: (p: string) => p.startsWith('/my-bids'),
     },
     {
       label: 'Watchlist',
@@ -499,7 +499,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <Link
           href="/browse-vehicles"
           className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all relative ${
-            pathname === '/browse-vehicles' || pathname === '/' || pathname.startsWith('/vehicles') || pathname.startsWith('/vehicle')
+            pathname === '/browse-vehicles' || pathname === '/' || pathname.startsWith('/vehicles')
               ? 'text-rose-500 font-bold'
               : 'text-slate-400 hover:text-slate-200'
           }`}
@@ -511,7 +511,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <Link
           href="/my-bids"
           className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all relative ${
-            pathname.startsWith('/my-bids') || pathname.startsWith('/bids')
+            pathname.startsWith('/my-bids')
               ? 'text-rose-500 font-bold'
               : 'text-slate-400 hover:text-slate-200'
           }`}
