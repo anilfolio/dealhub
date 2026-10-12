@@ -19,8 +19,11 @@ import {
   User,
   PanelLeftClose,
   PanelLeftOpen,
+  Gavel,
 } from 'lucide-react';
 import GlobalSearchModal from '@/components/layout/GlobalSearchModal';
+import NotificationDropdown from '@/components/layout/NotificationDropdown';
+import { getStoredRequests, getStoredBids } from '@/lib/dealerStore';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -32,6 +35,23 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [headerSearchQuery, setHeaderSearchQuery] = useState('');
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
+  const [pendingRequestsCount, setPendingRequestsCount] = useState<number>(0);
+
+  useEffect(() => {
+    const updateCount = () => {
+      const reqs = getStoredRequests().filter((r) => r.status === 'pending');
+      const activeBids = getStoredBids().filter((b) => b.status === 'leading');
+      setPendingRequestsCount(reqs.length + activeBids.length);
+    };
+
+    updateCount();
+    window.addEventListener('autohub_dealer_store_change', updateCount);
+    window.addEventListener('autoheiwa_sync_change', updateCount);
+    return () => {
+      window.removeEventListener('autohub_dealer_store_change', updateCount);
+      window.removeEventListener('autoheiwa_sync_change', updateCount);
+    };
+  }, []);
 
   // Responsive sidebar default handling
   useEffect(() => {
@@ -86,8 +106,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const navItems = [
     { label: 'Overview', href: '/admin', icon: LayoutDashboard },
+    {
+      label: 'Requests & Bids',
+      href: '/admin/requests',
+      icon: Gavel,
+      badge: pendingRequestsCount > 0 ? `${pendingRequestsCount}` : undefined,
+    },
     { label: 'Dealers', href: '/admin/dealers', icon: Users, badge: '3' },
-    { label: 'Wish Lists', href: '/admin/wishlists', icon: Heart, },
+    { label: 'Wish Lists', href: '/admin/wishlists', icon: Heart },
     { label: 'Heiwa Vehicles', href: '/admin/vehicles', icon: Car, badge: '38' },
   ];
 
@@ -417,14 +443,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <RefreshCw size={17} className={isRefreshing ? 'animate-spin' : ''} />
             </button>
 
-            {/* Notification Bell */}
-            <button
-              className="relative p-2 text-[#4B5563] hover:text-[#111827] hover:bg-slate-100 rounded-full transition-colors"
-              title="Notifications"
-            >
-              <Bell size={19} />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#E11D48] rounded-full ring-2 ring-white"></span>
-            </button>
+            {/* Notification Bell Dropdown */}
+            <NotificationDropdown role="admin" />
           </div>
         </header>
 

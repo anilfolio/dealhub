@@ -11,7 +11,15 @@ export interface DealerNotification {
   timestamp: string;
   vehicleId?: string;
   isRead: boolean;
-  type: 'sourcing_match' | 'fx_update' | 'bid_alert';
+  type:
+    | 'sourcing_match'
+    | 'fx_update'
+    | 'bid_alert'
+    | 'bid_won'
+    | 'bid_outbid'
+    | 'logistics_update'
+    | 'reserve_approved'
+    | 'request_alert';
   actionUrl?: string;
 }
 
@@ -107,13 +115,37 @@ export function setStoredSyncState(state: SyncState | ((prev: SyncState) => Sync
     const current = getStoredSyncState();
     const updated = typeof state === 'function' ? state(current) : state;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-    // Trigger custom event for same-tab reactivity
+    // Trigger custom events for both stores
     window.dispatchEvent(new Event('autoheiwa_sync_change'));
+    window.dispatchEvent(new Event('autohub_dealer_store_change'));
     return updated;
   } catch (e) {
     console.error('Error saving sync state', e);
     return DEFAULT_STATE;
   }
+}
+
+// Global helper to push a notification into the sync store from any module
+export function addNotificationToSyncStore(notif: {
+  title: string;
+  body: string;
+  type: DealerNotification['type'];
+  actionUrl?: string;
+  vehicleId?: string;
+  timestamp?: string;
+}) {
+  setStoredSyncState((prev) => {
+    const newNotif: DealerNotification = {
+      id: `notif-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      timestamp: notif.timestamp || 'Just now',
+      isRead: false,
+      ...notif,
+    };
+    return {
+      ...prev,
+      dealerNotifications: [newNotif, ...prev.dealerNotifications],
+    };
+  });
 }
 
 // Custom React hook to subscribe to sync store
@@ -131,10 +163,12 @@ export function useSyncStore() {
 
     window.addEventListener('storage', handleSyncChange);
     window.addEventListener('autoheiwa_sync_change', handleSyncChange);
+    window.addEventListener('autohub_dealer_store_change', handleSyncChange);
 
     return () => {
       window.removeEventListener('storage', handleSyncChange);
       window.removeEventListener('autoheiwa_sync_change', handleSyncChange);
+      window.removeEventListener('autohub_dealer_store_change', handleSyncChange);
     };
   }, []);
 
@@ -151,7 +185,7 @@ export function useSyncStore() {
         timestamp: 'Just now',
         isRead: false,
         type: 'sourcing_match',
-        actionUrl: `/vehicles`
+        actionUrl: `/browse-vehicles?search=${encodeURIComponent(modelName)}`
       };
 
       return {
@@ -172,7 +206,7 @@ export function useSyncStore() {
         timestamp: 'Just now',
         isRead: false,
         type: 'fx_update',
-        actionUrl: '/vehicles'
+        actionUrl: '/browse-vehicles'
       };
 
       return {

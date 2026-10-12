@@ -231,23 +231,35 @@ export default function MyBidsPage() {
                       href={`/vehicles/${encodeURIComponent(bid.vehicleChassis)}`}
                       className="text-xs font-semibold text-[#E11D48] hover:underline"
                     >
-                      View Stockid Specs
+                      View Specs
                     </Link>
 
-                    {bid.status !== "won" && (
+                    {bid.status === "won" ? (
+                      <Link
+                        href="/purchases"
+                        className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-2xs flex items-center gap-1.5"
+                      >
+                        <span>Track in Purchases</span>
+                        <ArrowRight size={13} />
+                      </Link>
+                    ) : (
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => {
                             setEditingBid(bid);
                             setNewBidAmount(bid.bidFobJpy);
                           }}
-                          className="px-3 py-1.5 rounded-lg bg-white border border-[#CBD5E1] text-xs font-semibold text-[#111827] hover:bg-slate-50 transition-colors"
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                            bid.status === "outbid"
+                              ? "bg-rose-600 text-white hover:bg-rose-700 shadow-2xs"
+                              : "bg-white border border-[#CBD5E1] text-[#111827] hover:bg-slate-50"
+                          }`}
                         >
-                          Modify
+                          {bid.status === "outbid" ? "Raise Bid" : "Modify"}
                         </button>
                         <button
                           onClick={() => handleCancelBid(bid.id)}
-                          className="px-3 py-1.5 rounded-lg text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors"
+                          className="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-500 hover:text-rose-600 transition-colors"
                         >
                           Cancel
                         </button>

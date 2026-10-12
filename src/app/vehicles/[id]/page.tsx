@@ -51,6 +51,7 @@ import {
   getStoredWatchlist,
   toggleStoredWatchlist,
   placeDealerBid,
+  createDealerRequest,
 } from "@/lib/dealerStore";
 
 function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
@@ -160,6 +161,22 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
       setBidSuccess(false);
       setBidModalOpen(false);
     }, 1800);
+  };
+
+  const handleConfirmReservation = () => {
+    if (!vehicle) return;
+    createDealerRequest({
+      dealerId: 1,
+      dealerName: "Auckland Auto Group",
+      dealerContact: "+64 21 582 9104",
+      type: enquiryType,
+      vehicleStockId: vehicle.stockId,
+      vehicleChassis: vehicle.chassis,
+      vehicleSummary: `${vehicle.year} ${vehicle.make} ${vehicle.model}`,
+      vehiclePhoto: getVehiclePhoto(vehicle),
+      notes: enquiryNotes || "24-hour reservation requested for dealership customer.",
+    });
+    setEnquirySuccess(true);
   };
 
   if (!vehicle) {
@@ -1435,7 +1452,7 @@ function VehicleDetailContent({ vehicleId }: { vehicleId: string }) {
                       </button>
                       <button
                         type="button"
-                        onClick={() => setEnquirySuccess(true)}
+                        onClick={handleConfirmReservation}
                         className="flex-1 py-2.5 rounded-xl bg-[#E11D48] hover:bg-[#BE123C] text-white text-xs font-bold transition-all shadow-sm hover:shadow-md cursor-pointer"
                       >
                         Confirm Reservation

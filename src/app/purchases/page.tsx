@@ -37,7 +37,14 @@ export default function PurchasesPage() {
   const [purchases, setPurchases] = useState<DealerPurchase[]>([]);
 
   useEffect(() => {
-    setPurchases(getStoredPurchases());
+    const refresh = () => setPurchases(getStoredPurchases());
+    refresh();
+    window.addEventListener("autohub_dealer_store_change", refresh);
+    window.addEventListener("autoheiwa_sync_change", refresh);
+    return () => {
+      window.removeEventListener("autohub_dealer_store_change", refresh);
+      window.removeEventListener("autoheiwa_sync_change", refresh);
+    };
   }, []);
 
   return (

@@ -22,6 +22,7 @@ import {
 import { getStoredBids, getStoredWatchlist, getStoredPurchases } from '@/lib/dealerStore';
 import WishlistHeaderModal, { WishlistButton } from '@/components/layout/WishlistHeaderModal';
 import GlobalSearchModal from '@/components/layout/GlobalSearchModal';
+import NotificationDropdown from '@/components/layout/NotificationDropdown';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -480,14 +481,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             {/* Wishlist Header Quick Access */}
             <WishlistButton onClick={() => setWishlistModalOpen(true)} />
 
-            {/* Notification Bell */}
-            <button
-              className="relative p-2 text-[#4B5563] hover:text-[#111827] hover:bg-slate-100 rounded-full transition-colors"
-              title="Notifications"
-            >
-              <Bell size={19} />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#E11D48] rounded-full ring-2 ring-white"></span>
-            </button>
+            {/* Notification Bell Dropdown */}
+            <NotificationDropdown role="dealer" />
           </div>
         </header>
 

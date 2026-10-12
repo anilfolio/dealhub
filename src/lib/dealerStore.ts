@@ -1,8 +1,9 @@
 // Dealer Store & Helper Services for DealHub DIP Phase 1
-// Handles Wishlist Criteria, Watchlist, Bids, Purchases, and Vehicle Photo mappings
+// Handles Wishlist Criteria, Watchlist, Bids, Purchases, Requests, and Vehicle Photo mappings
 
 import { HEIWA_VEHICLES, HeiwaVehicle, calculateLandedCost, LANDED_COST_CONSTANTS } from './heiwaData';
 import { DEALERS, Dealer } from './data';
+import { addNotificationToSyncStore } from './syncStore';
 
 export interface WishListCriteria {
   id: string;
@@ -30,6 +31,27 @@ export interface DealerBid {
   auctionTimeLeft: string;
   auctionHouse?: string;
   createdAt: string;
+  adminNotes?: string;
+}
+
+export type DealerRequestType = 'reserve' | 'inspection' | 'sourcing_inquiry' | 'quote';
+export type DealerRequestStatus = 'pending' | 'reviewing' | 'approved' | 'declined' | 'completed';
+
+export interface DealerRequest {
+  id: string;
+  dealerId: number;
+  dealerName: string;
+  dealerContact: string;
+  type: DealerRequestType;
+  status: DealerRequestStatus;
+  vehicleStockId?: string;
+  vehicleChassis?: string;
+  vehicleSummary?: string;
+  vehiclePhoto?: string;
+  notes: string;
+  adminNotes?: string;
+  createdAt: string;
+  updatedAt?: string;
 }
 
 export interface DealerPurchase {
@@ -52,6 +74,51 @@ export interface DealerPurchase {
   stageStatus: string;
   vinComplianceNumber?: string;
 }
+
+export const INITIAL_REQUESTS: DealerRequest[] = [
+  {
+    id: 'req-501',
+    dealerId: 1,
+    dealerName: 'Auckland Auto Group',
+    dealerContact: 'David Miller (+64 21 582 9104)',
+    type: 'reserve',
+    status: 'pending',
+    vehicleStockId: '1173386',
+    vehicleChassis: 'ZYX10-2079113',
+    vehicleSummary: '2017 Toyota C-HR G LED Hybrid (53,000 km)',
+    vehiclePhoto: '/vehicles/c-hr.jpg',
+    notes: 'Please hold 24-hr reserve for Auckland Auto Group. Customer ready to sign agreement.',
+    createdAt: '2026-10-12T09:15:00Z',
+  },
+  {
+    id: 'req-502',
+    dealerId: 1,
+    dealerName: 'Auckland Auto Group',
+    dealerContact: 'David Miller (+64 21 582 9104)',
+    type: 'inspection',
+    status: 'reviewing',
+    vehicleStockId: '1173019',
+    vehicleChassis: 'MXPK11-2624436',
+    vehicleSummary: '2021 Toyota Aqua Hybrid (112,000 km)',
+    vehiclePhoto: '/vehicles/aqua.jpg',
+    notes: 'Need translation of Japanese USS auction sheet remarks regarding A1/W2 marks on left door.',
+    adminNotes: 'Heiwa Tokyo inspector dispatched to USS Tokyo today.',
+    createdAt: '2026-10-12T08:30:00Z',
+  },
+  {
+    id: 'req-503',
+    dealerId: 2,
+    dealerName: 'Hamilton Motors',
+    dealerContact: 'Marcus Vance (+64 7 849 2200)',
+    type: 'sourcing_inquiry',
+    status: 'completed',
+    vehicleSummary: '2020 Honda Vezel e:HEV Z Package (< 60,000 km)',
+    vehiclePhoto: '/vehicles/aqua.jpg',
+    notes: 'Looking for pearl white or dark blue Vezel under NZ$26,000 landed budget.',
+    adminNotes: 'Located 2 matching units in CAA Chubu auction for Wednesday session. Notified Marcus.',
+    createdAt: '2026-10-11T14:20:00Z',
+  },
+];
 
 // Default initial wishlist criteria
 export const DEFAULT_WISHLIST: WishListCriteria[] = [
@@ -287,6 +354,7 @@ const STORAGE_KEYS = {
   PURCHASES: 'autohub_dealer_purchases_v2',
   DEALERS: 'autohub_dealers_directory_v2',
   CUSTOM_VEHICLES: 'autohub_custom_vehicles_v2',
+  REQUESTS: 'autohub_dealer_requests_v2',
 };
 
 // Retrieve combined list of base Heiwa vehicles and custom Admin-added vehicles
@@ -385,6 +453,7 @@ export function getEstimatedNZRetailPrice(v: HeiwaVehicle): {
 export function notifyStoreChange() {
   if (typeof window !== 'undefined') {
     window.dispatchEvent(new Event('autohub_dealer_store_change'));
+    window.dispatchEvent(new Event('autoheiwa_sync_change'));
   }
 }
 
@@ -538,6 +607,14 @@ export function placeDealerBid(
 
   const updated = [newBid, ...bids.filter(b => b.vehicleChassis !== vehicle.chassis)];
   saveStoredBids(updated);
+
+  addNotificationToSyncStore({
+    title: `⚡ Proxy Bid Placed: ${vehicle.year} ${vehicle.make} ${vehicle.model}`,
+    body: `Auckland Auto Group placed FOB ¥${bidFobJpy.toLocaleString()} (NZ$${landed.toLocaleString()} landed). Bid submitted to Tokyo proxy auction desk.`,
+    type: 'bid_alert',
+    actionUrl: '/my-bids',
+  });
+
   return newBid;
 }
 
@@ -570,7 +647,85 @@ export function batchPlaceDealerBids(
   const remaining = currentBids.filter(b => !newChassisSet.has(b.vehicleChassis));
   const updated = [...newCreated, ...remaining];
   saveStoredBids(updated);
+
+  addNotificationToSyncStore({
+    title: `⚡ Batch Proxy Bids Submitted (${newCreated.length} Vehicles)`,
+    body: `Batch bids recorded across Japanese auction houses. Monitoring live lots in Tokyo and Yokohama.`,
+    type: 'bid_alert',
+    actionUrl: '/my-bids',
+  });
+
   return newCreated;
+}
+
+// Admin / Ops updates status of a Dealer's Proxy Bid
+export function updateBidStatus(
+  bidId: string,
+  newStatus: DealerBid['status'],
+  adminNotes?: string
+): { bid: DealerBid | null; purchase?: DealerPurchase } {
+  const bids = getStoredBids();
+  const targetIndex = bids.findIndex(b => b.id === bidId);
+  if (targetIndex === -1) return { bid: null };
+
+  const prevBid = bids[targetIndex];
+  const updatedBid: DealerBid = {
+    ...prevBid,
+    status: newStatus,
+    adminNotes: adminNotes !== undefined ? adminNotes : prevBid.adminNotes,
+  };
+
+  const updatedBids = [...bids];
+  updatedBids[targetIndex] = updatedBid;
+  saveStoredBids(updatedBids);
+
+  let createdPurchase: DealerPurchase | undefined = undefined;
+
+  // When Admin marks a bid as WON, automatically convert into a Dealer Purchase!
+  if (newStatus === 'won') {
+    const purchases = getStoredPurchases();
+    const existing = purchases.find(p => p.vehicleChassis === updatedBid.vehicleChassis);
+    if (!existing) {
+      createdPurchase = {
+        id: `po-${Date.now().toString().slice(-5)}`,
+        vehicleStockId: updatedBid.vehicleStockId,
+        vehicleChassis: updatedBid.vehicleChassis,
+        make: updatedBid.make,
+        model: updatedBid.model,
+        year: updatedBid.year,
+        kms: updatedBid.kms,
+        color: updatedBid.color,
+        purchaseFobJpy: updatedBid.bidFobJpy,
+        totalLandedNzd: updatedBid.landedCostNzd,
+        vesselName: 'Trans Future 7 (Voy 083)',
+        departurePort: 'Yokohama, Japan',
+        destinationPort: 'Ports of Auckland, NZ',
+        etdDate: new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0],
+        etaDate: new Date(Date.now() + 28 * 86400000).toISOString().split('T')[0],
+        currentStage: 1, // Auction Won
+        stageStatus: 'Auction Won in Japan · Payment Cleared · Pre-Shipment Inspection',
+        vinComplianceNumber: `7AT0H00X${Math.floor(100000 + Math.random() * 900000)}`,
+      };
+      saveStoredPurchases([createdPurchase, ...purchases]);
+    }
+
+    addNotificationToSyncStore({
+      title: `🎉 Auction Proxy Bid Won: ${updatedBid.year} ${updatedBid.make} ${updatedBid.model}`,
+      body: `Heiwa Japan won Stock #${updatedBid.vehicleStockId} at auction for ¥${updatedBid.bidFobJpy.toLocaleString()}. Order created in Purchases!`,
+      type: 'bid_won',
+      actionUrl: '/purchases',
+    });
+  } else if (newStatus === 'outbid') {
+    addNotificationToSyncStore({
+      title: `⚠️ Outbid Alert: ${updatedBid.year} ${updatedBid.make} ${updatedBid.model}`,
+      body: `Another Japan auction bidder placed a higher proxy bid. Click to review and raise your maximum bid.`,
+      type: 'bid_outbid',
+      actionUrl: '/my-bids',
+    });
+  }
+
+  notifyStoreChange();
+  return { bid: updatedBid, purchase: createdPurchase };
 }
 
 // PURCHASES HELPERS
@@ -584,6 +739,147 @@ export function getStoredPurchases(): DealerPurchase[] {
   } catch {
     return INITIAL_PURCHASES;
   }
+}
+
+export function saveStoredPurchases(purchases: DealerPurchase[]) {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem(STORAGE_KEYS.PURCHASES, JSON.stringify(purchases));
+  notifyStoreChange();
+}
+
+export function addDealerPurchase(purchase: DealerPurchase) {
+  const current = getStoredPurchases();
+  const updated = [purchase, ...current.filter(p => p.id !== purchase.id)];
+  saveStoredPurchases(updated);
+}
+
+export const STAGE_TITLES: Record<number, string> = {
+  1: 'Auction Won (Japan payment cleared)',
+  2: 'De-reg & JEVIC (Odometer & Bio-Security)',
+  3: 'Ocean RoRo Shipping (At Sea)',
+  4: 'Ports of Auckland (Customs & MAF Clearance)',
+  5: 'Yard Ready (Entry Compliance Certified)',
+};
+
+export function updatePurchaseStage(
+  purchaseId: string,
+  stage: 1 | 2 | 3 | 4 | 5,
+  updates?: Partial<DealerPurchase>
+): DealerPurchase | null {
+  const purchases = getStoredPurchases();
+  const index = purchases.findIndex(p => p.id === purchaseId);
+  if (index === -1) return null;
+
+  const current = purchases[index];
+  const updated: DealerPurchase = {
+    ...current,
+    currentStage: stage,
+    stageStatus: updates?.stageStatus || STAGE_TITLES[stage] || current.stageStatus,
+    vesselName: updates?.vesselName || current.vesselName,
+    etdDate: updates?.etdDate || current.etdDate,
+    etaDate: updates?.etaDate || current.etaDate,
+    departurePort: updates?.departurePort || current.departurePort,
+    destinationPort: updates?.destinationPort || current.destinationPort,
+    vinComplianceNumber: updates?.vinComplianceNumber || current.vinComplianceNumber,
+  };
+
+  const updatedPurchases = [...purchases];
+  updatedPurchases[index] = updated;
+  saveStoredPurchases(updatedPurchases);
+
+  addNotificationToSyncStore({
+    title: `🚢 Logistics Milestone: ${updated.make} ${updated.model} (Order #${updated.id})`,
+    body: `Vehicle advanced to Stage ${stage}: ${STAGE_TITLES[stage]}. Vessel: ${updated.vesselName}. ETA: ${updated.etaDate}`,
+    type: 'logistics_update',
+    actionUrl: '/purchases',
+  });
+
+  notifyStoreChange();
+  return updated;
+}
+
+// REQUESTS & INQUIRIES HELPERS (Reservations, Inspections, Sourcing Inquiries)
+export function getStoredRequests(): DealerRequest[] {
+  if (typeof window === 'undefined') return INITIAL_REQUESTS;
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.REQUESTS);
+    if (!raw) return INITIAL_REQUESTS;
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) && parsed.length > 0 ? parsed : INITIAL_REQUESTS;
+  } catch {
+    return INITIAL_REQUESTS;
+  }
+}
+
+export function saveStoredRequests(requests: DealerRequest[]) {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem(STORAGE_KEYS.REQUESTS, JSON.stringify(requests));
+  notifyStoreChange();
+}
+
+export function createDealerRequest(
+  requestData: Omit<DealerRequest, 'id' | 'createdAt' | 'status'>
+): DealerRequest {
+  const current = getStoredRequests();
+  const newRequest: DealerRequest = {
+    ...requestData,
+    id: `req-${Date.now()}`,
+    status: 'pending',
+    createdAt: new Date().toISOString(),
+  };
+
+  const updated = [newRequest, ...current];
+  saveStoredRequests(updated);
+
+  addNotificationToSyncStore({
+    title: `📋 New Dealer Request: ${requestData.dealerName}`,
+    body: `${
+      requestData.type === 'reserve'
+        ? '24h Reservation Lock'
+        : requestData.type === 'inspection'
+        ? 'Japanese Auction Sheet Inspection'
+        : 'Sourcing Inquiry'
+    } requested for ${requestData.vehicleSummary || 'Stock Lot'}.`,
+    type: 'request_alert',
+    actionUrl: '/admin/requests',
+  });
+
+  notifyStoreChange();
+  return newRequest;
+}
+
+export function updateDealerRequestStatus(
+  requestId: string,
+  newStatus: DealerRequestStatus,
+  adminNotes?: string
+): DealerRequest | null {
+  const requests = getStoredRequests();
+  const index = requests.findIndex(r => r.id === requestId);
+  if (index === -1) return null;
+
+  const current = requests[index];
+  const updated: DealerRequest = {
+    ...current,
+    status: newStatus,
+    adminNotes: adminNotes !== undefined ? adminNotes : current.adminNotes,
+    updatedAt: new Date().toISOString(),
+  };
+
+  const updatedRequests = [...requests];
+  updatedRequests[index] = updated;
+  saveStoredRequests(updatedRequests);
+
+  if (newStatus === 'approved') {
+    addNotificationToSyncStore({
+      title: `✅ 24h Reservation Approved: ${current.vehicleSummary || 'Vehicle'}`,
+      body: `Heiwa Japan has locked this lot exclusively for ${current.dealerName} for 24 hours.`,
+      type: 'reserve_approved',
+      actionUrl: current.vehicleStockId ? `/vehicles/${current.vehicleStockId}` : '/browse-vehicles',
+    });
+  }
+
+  notifyStoreChange();
+  return updated;
 }
 
 // DEALERS DIRECTORY HELPERS

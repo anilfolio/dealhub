@@ -10,7 +10,7 @@ export default function MatchesRedirectPage() {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace("/?filter=wishlist");
+    router.replace("/browse-vehicles?filter=wishlist");
   }, [router]);
 
   return (
@@ -22,7 +22,7 @@ export default function MatchesRedirectPage() {
           Redirecting to Browse Vehicles with your active Wishlist filter applied.
         </p>
         <Link
-          href="/?filter=wishlist"
+          href="/browse-vehicles?filter=wishlist"
           className="inline-flex items-center gap-1.5 text-xs font-bold text-[#E11D48] hover:underline"
         >
           Click here if not redirected automatically <ArrowRight size={13} />
