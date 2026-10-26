@@ -15,6 +15,7 @@ import {
   CheckCircle2,
   TrendingUp,
 } from "lucide-react";
+import DealHubLogo from "@/components/common/DealHubLogo";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -63,28 +64,8 @@ export default function LoginPage() {
         <div className="absolute top-1/2 right-1/4 w-40 h-40 rounded-full bg-[#2563EB]/15 blur-2xl pointer-events-none" />
 
         {/* 1. Header Logo & Brand Badge */}
-        <div className="relative z-10">
-          <div className="flex items-center gap-3.5 mb-3">
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#E11D48] to-[#BE123C] p-0.5 flex items-center justify-center shadow-xl shadow-rose-950/60">
-              <div className="w-full h-full bg-white rounded-[14px] flex items-center justify-center overflow-hidden">
-                <img
-                  src="/dealhub-logo.jpg"
-                  alt="DealHub"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-[19px] font-extrabold tracking-tight text-white block leading-none">
-                  DealHub
-                </span>
-              </div>
-              <span className="text-[10px] text-[#60A5FA] font-bold tracking-[0.16em] uppercase mt-1 block">
-                DEALER INTELLIGENCE PLATFORM
-              </span>
-            </div>
-          </div>
+        <div className="relative z-10 mb-3">
+          <DealHubLogo size="lg" subBadge="NZ DEALER" subBadgeColor="sky" glow={true} />
         </div>
 
         {/* 2. Middle Value Proposition & Live Platform Highlights */}
@@ -117,25 +98,8 @@ export default function LoginPage() {
       <div className="flex-1 flex items-center justify-center px-5 sm:px-8 py-10 overflow-y-auto">
         <div className="w-full max-w-[460px]">
           {/* Mobile brand header (< lg) */}
-          <div className="flex items-center gap-3 lg:hidden mb-8">
-            <div className="w-10 h-10 rounded-xl bg-[#E11D48] flex items-center justify-center shadow-md shadow-rose-950/20 p-0.5">
-              <div className="w-full h-full bg-white rounded-[10px] flex items-center justify-center overflow-hidden">
-                <img
-                  src="/dealhub-logo.jpg"
-                  alt="DealHub"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="text-[17px] font-extrabold text-[#0A1322] leading-none">DealHub</span>
-                <span className="text-[8.5px] px-1.5 py-0.5 rounded font-extrabold bg-rose-100 text-rose-700 uppercase">DIP</span>
-              </div>
-              <span className="text-[9.5px] text-[#2563EB] uppercase tracking-[0.14em] font-extrabold mt-0.5 block">
-                DEALER INTELLIGENCE PLATFORM
-              </span>
-            </div>
+          <div className="lg:hidden mb-8">
+            <DealHubLogo size="md" theme="light" subBadge="DIP" subBadgeColor="rose" glow={false} />
           </div>
 
           {/* Heading */}

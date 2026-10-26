@@ -1,7 +1,7 @@
 # DealHub · Dealer Intelligence Platform
 
 <p align="center">
-  <img src="public/dealhub-logo.jpg" alt="DealHub Logo" width="120" style="border-radius: 16px;" />
+  <img src="public/dealhub-logo-full.svg" alt="DealHub Dealer Intelligence Platform HD Logo" width="480" />
 </p>
 
 <p align="center">
@@ -117,9 +117,13 @@ Dealers can adjust their required profit margin directly on any vehicle page to 
 
 ```text
 dealhub/
-├── public/                       # Static public assets
-│   ├── dealhub-logo.jpg          # Brand identity logo
-│   ├── favicon.svg               # Vector brand favicon
+├── public/                       # High-definition static brand assets
+│   ├── dealhub-logo-full.svg     # Full horizontal HD vector logo & wordmark
+│   ├── dealhub-emblem.svg        # Precision vector HD emblem (Squircle D+H)
+│   ├── dealhub-emblem-hd.jpg     # 3D Glossy HD app icon emblem (4K master)
+│   ├── dealhub-logo-hd.jpg       # High-definition brand emblem raster master
+│   ├── favicon.svg               # Scalable vector favicon
+│   ├── apple-touch-icon.png      # High-res iOS & web app touch icon
 │   └── vehicles/                 # High-resolution vehicle photography library
 ├── src/
 │   ├── app/                      # Next.js 14 App Router
@@ -202,6 +206,17 @@ Run static code analysis:
 ```bash
 npm run lint
 ```
+
+---
+
+## 🏗️ Architecture, Design & Layout Governance
+
+DealHub is engineered with an enterprise cloud architecture, high-density operational layout blueprints, and design tokens:
+- 🏗️ **Platform System Architecture**: [`ARCHITECTURE.md`](ARCHITECTURE.md) — Complete technical blueprint, Mermaid system architecture diagrams, mathematical landed cost formulas, proxy bidding finite state machine, and the **6 Better Layout Architectural Blueprints** (70/30 Auction Cockpit, 4-Column KPI strip, Dual-Engine Landed Cost split, 5-Stage Maritime Logistics Stepper, and Master-Detail drawer).
+- 🎨 **UI Styleguide Documentation**: [`STYLEGUIDE.md`](STYLEGUIDE.md) — Comprehensive design system tokens, typography scales, component library specifications, and visual hierarchy standards.
+- 🔒 **Engineering & Compliance Rules**: [`RULES.md`](RULES.md) — Development rules, mandatory layout standards, anti-patterns, biosecurity/MAF compliance, and cross-window event bus protocols.
+- ⚡ **Interactive Styleguide & Layout Explorer**: Available live at [`/styleguide`](http://localhost:3000/styleguide) featuring real-time calculators, layout pattern switchers, and component playgrounds.
+- 💎 **Brand Identity & HD Logo System**: Available live at [`/brand`](http://localhost:3000/brand) featuring one-click vector SVG downloads and React JSX generator.
 
 ---
 

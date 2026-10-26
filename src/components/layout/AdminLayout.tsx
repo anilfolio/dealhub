@@ -20,9 +20,12 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   Gavel,
+  Sparkles,
+  LayoutGrid,
 } from 'lucide-react';
 import GlobalSearchModal from '@/components/layout/GlobalSearchModal';
 import NotificationDropdown from '@/components/layout/NotificationDropdown';
+import DealHubLogo from '@/components/common/DealHubLogo';
 import { getStoredRequests, getStoredBids } from '@/lib/dealerStore';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -143,38 +146,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       `}>
         {/* ─── 1. Top Brand Header (Aligned to 68px) ─── */}
         <div className={`h-[68px] px-3.5 flex items-center border-b border-white/[0.08] bg-white/[0.02] shrink-0 ${isMini ? 'justify-center' : 'justify-between'}`}>
-          <Link
+          <DealHubLogo
+            isMini={isMini}
             href="/admin"
-            className="flex items-center gap-3 group min-w-0"
+            subBadge="ADMIN OPS"
+            subBadgeColor="rose"
             onClick={() => setMobileMenuOpen(false)}
-            title={isMini ? "DealHub Admin Operations" : undefined}
-          >
-            {/* DealHub Logo Emblem */}
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#E11D48] to-[#BE123C] p-0.5 flex items-center justify-center shadow-lg shadow-rose-950/50 group-hover:scale-105 transition-transform shrink-0">
-              <div className="w-full h-full bg-white rounded-[10px] flex items-center justify-center overflow-hidden">
-                <img
-                  src="/dealhub-logo.jpg"
-                  alt="DealHub"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-
-            {/* Brand Titles (Hidden in mini mode) */}
-            {!isMini && (
-              <div className="min-w-0">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[16px] font-extrabold text-white tracking-tight leading-none">DealHub</span>
-                  <span className="text-[8.5px] px-1.5 py-0.5 rounded font-extrabold bg-rose-500/20 text-rose-300 border border-rose-500/30 uppercase tracking-wide leading-none">
-                    ADMIN OPS
-                  </span>
-                </div>
-                <span className="block text-[9.5px] font-extrabold text-[#60A5FA] tracking-[0.16em] uppercase mt-1 leading-none">
-                  INTELLIGENCE PLATFORM
-                </span>
-              </div>
-            )}
-          </Link>
+          />
 
           {/* Mobile close button (< lg) */}
           <button
@@ -306,6 +284,28 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 >
                   <User size={15} className="text-slate-400" />
                   <span>Profile Settings</span>
+                </Link>
+                <Link
+                  href="/brand"
+                  onClick={() => {
+                    setProfileDropdownOpen(false);
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-[12.5px] font-medium text-slate-200 hover:text-white hover:bg-white/[0.08] transition-colors"
+                >
+                  <Sparkles size={15} className="text-rose-400" />
+                  <span>Brand & HD Logo</span>
+                </Link>
+                <Link
+                  href="/styleguide"
+                  onClick={() => {
+                    setProfileDropdownOpen(false);
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-[12.5px] font-medium text-slate-200 hover:text-white hover:bg-white/[0.08] transition-colors"
+                >
+                  <LayoutGrid size={15} className="text-sky-400" />
+                  <span>UI Styleguide & Layouts</span>
                 </Link>
                 <div className="border-t border-white/[0.08] my-1" />
                 <Link

@@ -18,11 +18,14 @@ import {
   CheckCircle2,
   PanelLeftClose,
   PanelLeftOpen,
+  Sparkles,
+  LayoutGrid,
 } from 'lucide-react';
 import { getStoredBids, getStoredWatchlist, getStoredPurchases } from '@/lib/dealerStore';
 import WishlistHeaderModal, { WishlistButton } from '@/components/layout/WishlistHeaderModal';
 import GlobalSearchModal from '@/components/layout/GlobalSearchModal';
 import NotificationDropdown from '@/components/layout/NotificationDropdown';
+import DealHubLogo from '@/components/common/DealHubLogo';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -170,40 +173,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       >
         {/* ─── 1. Top Brand Header (Aligned to 68px) ─── */}
         <div className={`h-[68px] px-3.5 flex items-center border-b border-white/[0.08] bg-white/[0.02] shrink-0 ${isMini ? 'justify-center' : 'justify-between'}`}>
-          <Link
+          <DealHubLogo
+            isMini={isMini}
             href="/browse-vehicles"
-            className="flex items-center gap-3 group min-w-0"
+            subBadge="DEALER"
+            subBadgeColor="sky"
             onClick={() => setMobileMenuOpen(false)}
-            title={isMini ? "DealHub Dealer Intelligence Platform" : undefined}
-          >
-            {/* DealHub Logo Emblem */}
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#E11D48] to-[#BE123C] p-0.5 flex items-center justify-center shadow-lg shadow-rose-950/50 group-hover:scale-105 transition-transform shrink-0">
-              <div className="w-full h-full bg-white rounded-[10px] flex items-center justify-center overflow-hidden">
-                <img
-                  src="/dealhub-logo.jpg"
-                  alt="DealHub"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-
-            {/* Brand Titles (Hidden in mini mode) */}
-            {!isMini && (
-              <div className="min-w-0">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[16px] font-extrabold tracking-tight text-white leading-none">
-                    DealHub
-                  </span>
-                  <span className="text-[8.5px] px-1.5 py-0.5 rounded font-extrabold bg-sky-500/20 text-sky-300 border border-sky-400/30 uppercase tracking-wide leading-none">
-                    DEALER
-                  </span>
-                </div>
-                <span className="text-[9.5px] font-extrabold text-[#60A5FA] tracking-[0.16em] uppercase block mt-1 leading-none">
-                  INTELLIGENCE PLATFORM
-                </span>
-              </div>
-            )}
-          </Link>
+          />
 
           {/* Mobile close button (< lg) */}
           <button
@@ -350,6 +326,28 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 >
                   <User size={15} className="text-slate-400" />
                   <span>Profile Settings</span>
+                </Link>
+                <Link
+                  href="/brand"
+                  onClick={() => {
+                    setProfileDropdownOpen(false);
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-[12.5px] font-medium text-slate-200 hover:text-white hover:bg-white/[0.08] transition-colors"
+                >
+                  <Sparkles size={15} className="text-rose-400" />
+                  <span>Brand & HD Logo</span>
+                </Link>
+                <Link
+                  href="/styleguide"
+                  onClick={() => {
+                    setProfileDropdownOpen(false);
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-[12.5px] font-medium text-slate-200 hover:text-white hover:bg-white/[0.08] transition-colors"
+                >
+                  <LayoutGrid size={15} className="text-sky-400" />
+                  <span>UI Styleguide & Layouts</span>
                 </Link>
                 <div className="border-t border-white/[0.08] my-1" />
                 <Link
