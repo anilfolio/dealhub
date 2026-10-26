@@ -5,12 +5,10 @@ import Link from 'next/link';
 
 export type LogoVariant = 'full' | 'mark' | 'horizontal' | 'icon';
 export type LogoSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-export type LogoMode = 'vector' | 'hd-image';
 
 export interface DealHubLogoProps {
   variant?: LogoVariant;
   size?: LogoSize | number;
-  mode?: LogoMode;
   theme?: 'dark' | 'light';
   subBadge?: string;
   subBadgeColor?: 'sky' | 'rose' | 'emerald' | 'amber';
@@ -40,164 +38,33 @@ const badgeColorMap = {
 };
 
 /**
- * HD Vector SVG Mark for DealHub
- * Features precision geometric D+H monogram, ascending market telemetry pulse,
- * and aerodynamic automotive speed blade contours.
+ * Official Attached Auto Auction Hub Logo Emblem
+ * Stylized red letter 'D' with auto auction road trajectory & market telemetry graph nodes.
  */
 export function DealHubVectorMark({ size = 40, className = "" }: { size?: number; className?: string }) {
   return (
-    <svg
-      viewBox="0 0 200 200"
-      width={size}
-      height={size}
-      className={`shrink-0 ${className}`}
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-label="DealHub HD Emblem"
+    <div
+      className={`relative rounded-xl bg-gradient-to-br from-[#FF385C] via-[#E11D48] to-[#9F1239] p-0.5 flex items-center justify-center shadow-md shadow-rose-950/40 shrink-0 ${className}`}
+      style={{ width: size, height: size }}
     >
-      <defs>
-        <linearGradient id="dh_bg_grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#141E33" />
-          <stop offset="50%" stopColor="#0B1220" />
-          <stop offset="100%" stopColor="#050811" />
-        </linearGradient>
-
-        <linearGradient id="dh_crimson_grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#FF385C" />
-          <stop offset="45%" stopColor="#E11D48" />
-          <stop offset="100%" stopColor="#9F1239" />
-        </linearGradient>
-
-        <linearGradient id="dh_blue_grad" x1="0%" y1="100%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#2563EB" />
-          <stop offset="50%" stopColor="#3B82F6" />
-          <stop offset="100%" stopColor="#60A5FA" />
-        </linearGradient>
-
-        <linearGradient id="dh_rim_grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#FB7185" />
-          <stop offset="40%" stopColor="#E11D48" />
-          <stop offset="70%" stopColor="#1E293B" />
-          <stop offset="100%" stopColor="#38BDF8" />
-        </linearGradient>
-
-        <filter id="dh_shadow_filter" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="5" stdDeviation="6" floodColor="#E11D48" floodOpacity="0.4" />
-          <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#000000" floodOpacity="0.7" />
-        </filter>
-      </defs>
-
-      {/* 1. Squircle Base Frame */}
-      <rect
-        x="10"
-        y="10"
-        width="180"
-        height="180"
-        rx="46"
-        ry="46"
-        fill="url(#dh_bg_grad)"
-        stroke="url(#dh_rim_grad)"
-        strokeWidth="3.5"
-        filter="url(#dh_shadow_filter)"
-      />
-
-      {/* Inner highlight line */}
-      <rect
-        x="15"
-        y="15"
-        width="170"
-        height="170"
-        rx="41"
-        ry="41"
-        fill="none"
-        stroke="#FFFFFF"
-        strokeOpacity="0.09"
-        strokeWidth="1.2"
-      />
-
-      {/* 2. Bold 'D' Monogram in Crimson */}
-      <g>
-        <path
-          d="M 44 54 
-             C 44 48, 48 44, 54 44 
-             L 88 44 
-             C 114 44, 132 58, 132 84 
-             C 132 100, 122 114, 108 122 
-             L 94 112 
-             C 106 106, 112 96, 112 84 
-             C 112 68, 100 60, 84 60 
-             L 64 60 
-             L 64 138 
-             C 64 144, 60 148, 54 148 
-             L 48 148 
-             C 45 148, 44 145, 44 142 
-             Z"
-          fill="url(#dh_crimson_grad)"
+      <div className="w-full h-full bg-white rounded-[10px] flex items-center justify-center overflow-hidden p-0.5">
+        <img
+          src="/dealhub-logo-transparent.png"
+          alt="DealHub Auto Auction Hub"
+          className="w-full h-full object-contain"
         />
-
-        {/* Inner aerodynamic bowl negative space */}
-        <path
-          d="M 64 74 L 84 74 C 95 74, 102 81, 102 91 C 102 99, 96 105, 87 106 L 64 88 Z"
-          fill="#0B1220"
-          opacity="0.95"
-        />
-      </g>
-
-      {/* 3. Interlocking 'H' Stem & Market Surge Arrow in Electric Blue */}
-      <g>
-        <path
-          d="M 126 148 
-             C 120 148, 116 144, 116 138 
-             L 116 94 
-             L 100 94 
-             L 100 114 
-             L 88 102 
-             L 88 82 
-             L 116 82 
-             L 116 66 
-             L 136 66 
-             L 136 138 
-             C 136 144, 132 148, 126 148 Z"
-          fill="url(#dh_blue_grad)"
-        />
-
-        {/* Telemetry Trajectory Line */}
-        <path
-          d="M 52 116 L 78 94 L 96 108 L 134 68 L 156 46"
-          fill="none"
-          stroke="url(#dh_blue_grad)"
-          strokeWidth="5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-
-        {/* Arrow head */}
-        <polygon points="156,38 158,54 144,48 138,40" fill="#60A5FA" />
-
-        {/* Intelligence Data Nodes */}
-        <circle cx="78" cy="94" r="3.5" fill="#FFFFFF" stroke="#3B82F6" strokeWidth="2" />
-        <circle cx="96" cy="108" r="3.5" fill="#FFFFFF" stroke="#3B82F6" strokeWidth="2" />
-        <circle cx="134" cy="68" r="4.5" fill="#FFFFFF" stroke="#E11D48" strokeWidth="2.5" />
-      </g>
-
-      {/* 4. Lower Automotive Speed Blade */}
-      <path d="M 38 156 L 162 156 L 148 163 L 52 163 Z" fill="url(#dh_crimson_grad)" opacity="0.85" />
-
-      {/* Spark highlight */}
-      <circle cx="158" cy="40" r="2.5" fill="#FFFFFF" opacity="0.95" />
-      <circle cx="158" cy="40" r="6" fill="#38BDF8" opacity="0.4" />
-    </svg>
+      </div>
+    </div>
   );
 }
 
 /**
- * DealHub HD Logo Component
- * Primary brand emblem and typography system for DealHub Dealer Intelligence Platform.
+ * DealHub Official Brand Logo Component
+ * Renders the official attached auto auction hub logo icon with consistent styling across all panels.
  */
 export function DealHubLogo({
   variant = 'full',
   size = 'md',
-  mode = 'vector',
   theme = 'dark',
   subBadge = 'DEALER',
   subBadgeColor = 'sky',
@@ -213,26 +80,24 @@ export function DealHubLogo({
   const pixelSize = typeof size === 'number' ? size : currentSizeConfig ? currentSizeConfig.box : 40;
   const isLight = theme === 'light';
 
-  // The emblem icon mark (vector or HD raster asset)
+  // The official attached logo icon inside a squircle emblem container
   const renderEmblem = () => {
     return (
       <div
         className={`relative flex items-center justify-center shrink-0 transition-all duration-300 ${
-          glow ? 'hover:shadow-lg hover:shadow-rose-950/40' : ''
+          glow ? 'hover:shadow-lg hover:shadow-rose-950/50' : ''
         }`}
         style={{ width: pixelSize, height: pixelSize }}
       >
-        {mode === 'hd-image' ? (
-          <div className="w-full h-full rounded-2xl overflow-hidden p-0.5 bg-gradient-to-br from-[#E11D48] via-[#1E293B] to-[#38BDF8] shadow-md shadow-rose-950/50">
+        <div className="w-full h-full rounded-xl bg-gradient-to-br from-[#FF385C] via-[#E11D48] to-[#9F1239] p-0.5 flex items-center justify-center shadow-md shadow-rose-950/50 group-hover:scale-105 transition-transform">
+          <div className="w-full h-full bg-white rounded-[10px] flex items-center justify-center overflow-hidden p-0.5">
             <img
-              src="/dealhub-emblem-hd.jpg"
-              alt="DealHub HD Logo"
-              className="w-full h-full object-cover rounded-[14px]"
+              src="/dealhub-logo-transparent.png"
+              alt="DealHub Auto Auction Hub"
+              className="w-full h-full object-contain"
             />
           </div>
-        ) : (
-          <DealHubVectorMark size={pixelSize} />
-        )}
+        </div>
       </div>
     );
   };
@@ -246,7 +111,7 @@ export function DealHubLogo({
           href={href}
           onClick={onClick}
           className={`inline-flex items-center justify-center group ${className}`}
-          title="DealHub · Dealer Intelligence Platform"
+          title="DealHub · Auto Auction Hub & Dealer Intelligence Platform"
         >
           <div className="group-hover:scale-105 transition-transform">{markContent}</div>
         </Link>
@@ -307,6 +172,5 @@ export function DealHubLogo({
   return <div className={`inline-flex items-center min-w-0 ${className}`}>{textContent}</div>;
 }
 
-// Convenient alias for "HDLogo"
 export { DealHubLogo as HDLogo };
 export default DealHubLogo;

@@ -97,8 +97,6 @@ dealhub/
 ├── /purchases                     # 5-Stage Maritime Logistics Timeline & BOL Documents
 ├── /market                        # NZ Market Demand Intelligence & Turnover Spread
 ├── /profile                       # RMVT Dealer Credentials, Credit Facility & Rep Settings
-├── /brand                         # Official Brand Identity, 4K Masters & HD Logo Assets
-├── /styleguide                    # Interactive UI Styleguide & Better Layout Explorer
 ├── /login                         # Dual-Portal Quick Launcher (Dealer vs Admin)
 └── /admin/                        # Admin Operations Command Center
     ├── /admin/dealers             # RMVT Dealer Accounts & Credit Limit Management
@@ -354,6 +352,6 @@ graph TD
 | :--- | :--- | :--- |
 | **System Architecture** | Technical blueprint, domain models, formulas, and 6 layout patterns | [`ARCHITECTURE.md`](file:///f:/Project-Personal-Portfolio/dealhub/ARCHITECTURE.md) |
 | **UI & Layout Styleguide** | Design tokens, typography hierarchy, component matrix, and layout standards | [`STYLEGUIDE.md`](file:///f:/Project-Personal-Portfolio/dealhub/STYLEGUIDE.md) |
+| **Engineering & Compliance Rules** | Anti-patterns, state management rules, biosecurity & landed cost formulas | [`RULES.md`](file:///f:/Project-Personal-Portfolio/dealhub/RULES.md) |
+| **Agent Development Governance** | Architectural governance and coding assistant guidelines | [`AGENTS.md`](file:///f:/Project-Personal-Portfolio/dealhub/AGENTS.md) |
 | **Project Overview** | Setup guide, key features, directory structure, and deployment instructions | [`README.md`](file:///f:/Project-Personal-Portfolio/dealhub/README.md) |
-| **Interactive Styleguide** | Live interactive component sandbox and real-time layout switcher | [`/styleguide`](file:///f:/Project-Personal-Portfolio/dealhub/src/app/styleguide/page.tsx) |
-| **HD Brand Asset Center** | 4K master emblems, scalable vector SVG downloads, and component JSX | [`/brand`](file:///f:/Project-Personal-Portfolio/dealhub/src/app/brand/page.tsx) |

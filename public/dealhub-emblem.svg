@@ -1,135 +1,39 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
   <defs>
-    <!-- Background Gradient -->
-    <linearGradient id="dhBadgeBg" x1="0%" y1="0%" x2="100%" y2="100%">
+    <!-- Metallic Crimson Rim Gradient -->
+    <linearGradient id="dhEmblemRim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF385C" />
+      <stop offset="40%" stop-color="#E11D48" />
+      <stop offset="100%" stop-color="#9F1239" />
+    </linearGradient>
+
+    <!-- Deep Obsidian Badge Background -->
+    <linearGradient id="dhEmblemBg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#141E33" />
       <stop offset="50%" stop-color="#0B1220" />
       <stop offset="100%" stop-color="#050811" />
     </linearGradient>
 
-    <!-- Crimson Primary Glow Gradient -->
-    <linearGradient id="dhCrimsonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FF385C" />
-      <stop offset="45%" stop-color="#E11D48" />
-      <stop offset="100%" stop-color="#9F1239" />
-    </linearGradient>
-
-    <!-- Electric Blue Intelligence Accent Gradient -->
-    <linearGradient id="dhBlueGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#2563EB" />
-      <stop offset="50%" stop-color="#3B82F6" />
-      <stop offset="100%" stop-color="#60A5FA" />
-    </linearGradient>
-
-    <!-- Metallic Rim Gradient -->
-    <linearGradient id="dhRimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FB7185" />
-      <stop offset="40%" stop-color="#E11D48" />
-      <stop offset="70%" stop-color="#1E293B" />
-      <stop offset="100%" stop-color="#38BDF8" />
-    </linearGradient>
-
-    <!-- Shadow & Glow Filters -->
-    <filter id="dhEmblemShadow" x="-20%" y="-20%" width="140%" height="140%">
+    <!-- Drop Shadow Filter -->
+    <filter id="dhEmblemDropShadow" x="-20%" y="-20%" width="140%" height="140%">
       <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#E11D48" flood-opacity="0.35" />
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.7" />
-    </filter>
-
-    <filter id="dhGlow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="3.5" result="coloredBlur" />
-      <feMerge>
-        <feMergeNode in="coloredBlur" />
-        <feMergeNode in="SourceGraphic" />
-      </feMerge>
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.6" />
     </filter>
   </defs>
 
-  <!-- 1. Outer Metallic Squircle Frame -->
-  <rect x="10" y="10" width="180" height="180" rx="44" ry="44"
-        fill="url(#dhBadgeBg)"
-        stroke="url(#dhRimGrad)"
+  <!-- 1. Outer Squircle Frame with Metallic Crimson Border -->
+  <rect x="8" y="8" width="184" height="184" rx="46" ry="46"
+        fill="url(#dhEmblemBg)"
+        stroke="url(#dhEmblemRim)"
         stroke-width="3.5"
-        filter="url(#dhEmblemShadow)" />
+        filter="url(#dhEmblemDropShadow)" />
 
-  <!-- Inner subtle border glow -->
-  <rect x="15" y="15" width="170" height="170" rx="39" ry="39"
-        fill="none"
-        stroke="#FFFFFF"
-        stroke-opacity="0.08"
-        stroke-width="1.2" />
+  <!-- 2. Pristine White Inner Tile -->
+  <rect x="14" y="14" width="172" height="172" rx="40" ry="40"
+        fill="#FFFFFF" />
 
-  <!-- Background decorative tech grid line -->
-  <path d="M 28 140 C 60 148, 140 148, 172 140" stroke="#38BDF8" stroke-opacity="0.15" stroke-width="1.5" stroke-dasharray="3 3" fill="none" />
-
-  <!-- 2. The Dynamic 'D' Monogram (Crimson & Aerodynamic) -->
-  <g filter="url(#dhGlow)">
-    <!-- Main bold stem of 'D' -->
-    <path d="M 44 54 
-             C 44 48, 48 44, 54 44 
-             L 88 44 
-             C 114 44, 132 58, 132 84 
-             C 132 100, 122 114, 108 122 
-             L 94 112 
-             C 106 106, 112 96, 112 84 
-             C 112 68, 100 60, 84 60 
-             L 64 60 
-             L 64 138 
-             C 64 144, 60 148, 54 148 
-             L 48 148 
-             C 45 148, 44 145, 44 142 
-             Z"
-          fill="url(#dhCrimsonGrad)" />
-
-    <!-- Aerodynamic Forward Speed Cutout / Inner Bowl accent -->
-    <path d="M 64 74 L 84 74 C 95 74, 102 81, 102 91 C 102 99, 96 105, 87 106 L 64 88 Z"
-          fill="#0B1220"
-          opacity="0.9" />
-  </g>
-
-  <!-- 3. The Interlocking 'H' & Ascending Market Trend Arrow (Electric Blue) -->
-  <g filter="url(#dhGlow)">
-    <!-- Right Pillar of 'H' transitioning into Market Surge Arrow -->
-    <path d="M 126 148 
-             C 120 148, 116 144, 116 138 
-             L 116 94 
-             L 100 94 
-             L 100 114 
-             L 88 102 
-             L 88 82 
-             L 116 82 
-             L 116 66 
-             L 136 66 
-             L 136 138 
-             C 136 144, 132 148, 126 148 Z"
-          fill="url(#dhBlueGrad)" />
-
-    <!-- High-Definition Market Surge Telemetry Trajectory (Pulse Line to Arrow) -->
-    <path d="M 52 116 
-             L 78 94 
-             L 96 108 
-             L 134 68 
-             L 156 46" 
-          fill="none" 
-          stroke="url(#dhBlueGrad)" 
-          stroke-width="5" 
-          stroke-linecap="round" 
-          stroke-linejoin="round" />
-
-    <!-- Arrowhead pointing up-right into the future -->
-    <polygon points="156,38 158,54 144,48 138,40" fill="#60A5FA" />
-
-    <!-- Data nodes on trajectory -->
-    <circle cx="78" cy="94" r="3.5" fill="#FFFFFF" stroke="#3B82F6" stroke-width="2" />
-    <circle cx="96" cy="108" r="3.5" fill="#FFFFFF" stroke="#3B82F6" stroke-width="2" />
-    <circle cx="134" cy="68" r="4.5" fill="#FFFFFF" stroke="#E11D48" stroke-width="2.5" />
-  </g>
-
-  <!-- 4. Lower Speed Blade & Automotive Ground Effect -->
-  <path d="M 38 156 L 162 156 L 148 163 L 52 163 Z"
-        fill="url(#dhCrimsonGrad)"
-        opacity="0.85" />
-
-  <!-- Spark Highlight at Upper Right -->
-  <circle cx="158" cy="40" r="2.5" fill="#FFFFFF" opacity="0.9" />
-  <circle cx="158" cy="40" r="6" fill="#38BDF8" opacity="0.4" />
+  <!-- 3. Official DealHub Auto Auction Hub Logo Icon -->
+  <image href="/dealhub-logo-transparent.png"
+         x="20" y="20" width="160" height="160"
+         preserveAspectRatio="xMidYMid meet" />
 </svg>

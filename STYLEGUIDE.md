@@ -8,16 +8,16 @@
 
 ---
 
-## 1. Visual Identity & HD Logo Standards
+## 1. Visual Identity & Official Auto Auction Hub Logo Standards
 
-The **DealHub** brand identity reflects high-frequency automotive sourcing intelligence, cross-border auction arbitrage, and precision landed-cost economics.
+The **DealHub** brand identity features the official auto auction hub icon: a stylized crimson red letter 'D' integrating an ascending automotive road trajectory that transitions into a market telemetry/pulse graph with round data nodes, terminating in an upward speed blade.
 
 ```mermaid
 graph LR
-    A["'D' Monogram"] -->|Crimson Velocity #E11D48| C["DealHub Brand Mark"]
-    B["'H' Interlock & Pulse"] -->|Electric Intelligence #3B82F6| C
-    D["Ascending Arrow & Spark"] -->|Yield & Gross Margin Arbitrage| C
-    E["Speed Ground Blade"] -->|Maritime Logistics Japan ➔ NZ| C
+    A["Stylized Red 'D'"] -->|Crimson Velocity #E11D48| C["Official DealHub Icon"]
+    B["Automotive Road Trajectory"] -->|Japan Auction Sourcing Corridor| C
+    D["Market Telemetry Pulse & Nodes"] -->|Real-Time Yield & Margin Arbitrage| C
+    E["Ascending Speed Blade"] -->|NZ Landed Velocity & Import Flow| C
 ```
 
 ### Official Logo Component: `<DealHubLogo />`
@@ -54,10 +54,9 @@ import DealHubLogo, { HDLogo } from "@/components/common/DealHubLogo";
   href="/browse-vehicles"
 />
 
-// 4. Standalone 4K Glossy 3D App Icon
+// 4. Standalone High-Definition Auto Auction Hub Emblem
 <DealHubLogo
   variant="mark"
-  mode="hd-image"
   size="xl"
 />
 ```

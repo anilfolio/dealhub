@@ -20,8 +20,6 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   Gavel,
-  Sparkles,
-  LayoutGrid,
 } from 'lucide-react';
 import GlobalSearchModal from '@/components/layout/GlobalSearchModal';
 import NotificationDropdown from '@/components/layout/NotificationDropdown';
@@ -284,28 +282,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 >
                   <User size={15} className="text-slate-400" />
                   <span>Profile Settings</span>
-                </Link>
-                <Link
-                  href="/brand"
-                  onClick={() => {
-                    setProfileDropdownOpen(false);
-                    setMobileMenuOpen(false);
-                  }}
-                  className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-[12.5px] font-medium text-slate-200 hover:text-white hover:bg-white/[0.08] transition-colors"
-                >
-                  <Sparkles size={15} className="text-rose-400" />
-                  <span>Brand & HD Logo</span>
-                </Link>
-                <Link
-                  href="/styleguide"
-                  onClick={() => {
-                    setProfileDropdownOpen(false);
-                    setMobileMenuOpen(false);
-                  }}
-                  className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-[12.5px] font-medium text-slate-200 hover:text-white hover:bg-white/[0.08] transition-colors"
-                >
-                  <LayoutGrid size={15} className="text-sky-400" />
-                  <span>UI Styleguide & Layouts</span>
                 </Link>
                 <div className="border-t border-white/[0.08] my-1" />
                 <Link

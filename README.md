@@ -215,8 +215,7 @@ DealHub is engineered with an enterprise cloud architecture, high-density operat
 - 🏗️ **Platform System Architecture**: [`ARCHITECTURE.md`](ARCHITECTURE.md) — Complete technical blueprint, Mermaid system architecture diagrams, mathematical landed cost formulas, proxy bidding finite state machine, and the **6 Better Layout Architectural Blueprints** (70/30 Auction Cockpit, 4-Column KPI strip, Dual-Engine Landed Cost split, 5-Stage Maritime Logistics Stepper, and Master-Detail drawer).
 - 🎨 **UI Styleguide Documentation**: [`STYLEGUIDE.md`](STYLEGUIDE.md) — Comprehensive design system tokens, typography scales, component library specifications, and visual hierarchy standards.
 - 🔒 **Engineering & Compliance Rules**: [`RULES.md`](RULES.md) — Development rules, mandatory layout standards, anti-patterns, biosecurity/MAF compliance, and cross-window event bus protocols.
-- ⚡ **Interactive Styleguide & Layout Explorer**: Available live at [`/styleguide`](http://localhost:3000/styleguide) featuring real-time calculators, layout pattern switchers, and component playgrounds.
-- 💎 **Brand Identity & HD Logo System**: Available live at [`/brand`](http://localhost:3000/brand) featuring one-click vector SVG downloads and React JSX generator.
+- 🤖 **Agent Development Governance**: [`AGENTS.md`](AGENTS.md) — Architectural governance and coding assistant guidelines.
 
 ---
 

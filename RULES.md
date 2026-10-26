@@ -187,6 +187,5 @@ Before submitting any code changes or merging pull requests:
 
 * 🏗️ **Platform System Architecture**: [`ARCHITECTURE.md`](file:///f:/Project-Personal-Portfolio/dealhub/ARCHITECTURE.md)
 * 🎨 **UI Styleguide & Design Tokens**: [`STYLEGUIDE.md`](file:///f:/Project-Personal-Portfolio/dealhub/STYLEGUIDE.md)
-* ⚡ **Live Interactive Styleguide**: [`/styleguide`](file:///f:/Project-Personal-Portfolio/dealhub/src/app/styleguide/page.tsx)
-* 💎 **Brand Identity & HD Logo Center**: [`/brand`](file:///f:/Project-Personal-Portfolio/dealhub/src/app/brand/page.tsx)
 * 📖 **Project README & Getting Started**: [`README.md`](file:///f:/Project-Personal-Portfolio/dealhub/README.md)
+* 🤖 **Agent Development Guidelines**: [`AGENTS.md`](file:///f:/Project-Personal-Portfolio/dealhub/AGENTS.md)
