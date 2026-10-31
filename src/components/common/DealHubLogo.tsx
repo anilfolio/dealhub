@@ -49,7 +49,7 @@ export function DealHubVectorMark({ size = 40, className = "" }: { size?: number
     >
       <div className="w-full h-full bg-white rounded-[10px] flex items-center justify-center overflow-hidden p-0.5">
         <img
-          src="/dealhub-logo-transparent.png"
+          src="/dealhub-emblem.svg"
           alt="DealHub Auto Auction Hub"
           className="w-full h-full object-contain"
         />
@@ -92,7 +92,7 @@ export function DealHubLogo({
         <div className="w-full h-full rounded-xl bg-gradient-to-br from-[#FF385C] via-[#E11D48] to-[#9F1239] p-0.5 flex items-center justify-center shadow-md shadow-rose-950/50 group-hover:scale-105 transition-transform">
           <div className="w-full h-full bg-white rounded-[10px] flex items-center justify-center overflow-hidden p-0.5">
             <img
-              src="/dealhub-logo-transparent.png"
+              src="/dealhub-emblem.svg"
               alt="DealHub Auto Auction Hub"
               className="w-full h-full object-contain"
             />

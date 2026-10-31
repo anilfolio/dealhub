@@ -1,86 +1,82 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 120" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 140" width="100%" height="100%">
   <defs>
-    <!-- Metallic Crimson Rim Gradient -->
-    <linearGradient id="fullRimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FF385C" />
-      <stop offset="50%" stop-color="#E11D48" />
-      <stop offset="100%" stop-color="#9F1239" />
+    <!-- Emblem Crimson Gradient -->
+    <linearGradient id="lockupCrimson" x1="20%" y1="20%" x2="80%" y2="80%">
+      <stop offset="0%" stop-color="#E8334E" />
+      <stop offset="40%" stop-color="#C8243A" />
+      <stop offset="100%" stop-color="#8B1228" />
     </linearGradient>
 
-    <!-- Wordmark Gradient -->
-    <linearGradient id="fullTextGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#FFFFFF" />
-      <stop offset="100%" stop-color="#F1F5F9" />
+    <!-- Bevel Facet Shading -->
+    <linearGradient id="lockupBevel" x1="10%" y1="10%" x2="90%" y2="90%">
+      <stop offset="0%" stop-color="#9E142C" />
+      <stop offset="100%" stop-color="#540716" />
     </linearGradient>
 
-    <!-- Drop Shadow Filter -->
-    <filter id="fullShadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#E11D48" flood-opacity="0.35" />
-      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.6" />
+    <!-- Subtle Icon Drop Shadow -->
+    <filter id="lockupIconShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#8B1228" flood-opacity="0.25" />
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.18" />
     </filter>
   </defs>
 
-  <!-- ── 1. EMBLEM WITH ATTACHED AUTO AUCTION HUB LOGO (Left: 10..110) ── -->
-  <g transform="translate(10, 10)">
-    <!-- Squircle badge frame -->
-    <rect x="0" y="0" width="100" height="100" rx="24" ry="24"
-          fill="#0B1322"
-          stroke="url(#fullRimGrad)"
-          stroke-width="2.5"
-          filter="url(#fullShadow)" />
+  <rect width="620" height="140" fill="#1E2229" rx="12" />
 
-    <!-- Crisp white inner tile -->
-    <rect x="3" y="3" width="94" height="94" rx="21" ry="21"
-          fill="#FFFFFF" />
-
-    <!-- Exact Auto Auction Hub Logo Icon -->
-    <image href="/dealhub-logo-transparent.png"
-           x="8" y="8" width="84" height="84"
-           preserveAspectRatio="xMidYMid meet" />
+  <!-- ── 1. EMBLEM (Scale: 0.12, Position: (10, 10)) ── -->
+  <g transform="translate(10, 10) scale(0.12)" filter="url(#lockupIconShadow)">
+    <!-- Orbital Tracks -->
+    <g fill="none" stroke="url(#lockupCrimson)" stroke-width="12" stroke-linecap="round">
+      <path d="M 500 204 A 296 296 0 0 0 423.5 214.2" />
+      <path d="M 398.8 221.9 A 296 296 0 0 0 225.4 389.1" />
+      <path d="M 215.5 418.4 A 296 296 0 0 0 204 500" />
+      <path d="M 796 500 A 296 296 0 0 1 781.5 591.5" />
+      <path d="M 774.4 610.8 A 296 296 0 0 1 606.1 776.6" />
+      <path d="M 581.6 784.5 A 296 296 0 0 1 500 796" />
+    </g>
+    <!-- Node Dots -->
+    <g fill="url(#lockupCrimson)">
+      <circle cx="500" cy="204" r="19" />
+      <circle cx="204" cy="500" r="19" />
+      <circle cx="500" cy="796" r="19" />
+      <circle cx="796" cy="500" r="19" />
+    </g>
+    <!-- Outer Ring -->
+    <path d="M 500 264 A 236 236 0 1 1 499.9 264 Z M 500 314 A 186 186 0 1 0 500.1 314 Z" fill="url(#lockupCrimson)" fill-rule="evenodd" />
+    <path d="M 500 288 A 212 212 0 1 1 499.9 288 Z M 500 314 A 186 186 0 1 0 500.1 314 Z" fill="url(#lockupBevel)" opacity="0.82" fill-rule="evenodd" />
+    <!-- Letter 'D' -->
+    <g fill="url(#lockupCrimson)">
+      <path d="M 370 360 L 422 360 L 422 546 L 370 598 Z" />
+      <path d="M 422 360 L 540 360 C 610 360 638 410 638 495 C 638 580 610 630 540 630 L 434 630 L 472 592 L 540 592 C 586 592 598 555 598 495 C 598 435 586 408 540 408 L 422 408 Z" />
+      <path d="M 434 630 L 540 630 C 610 630 638 580 638 495 L 626 505 C 624 570 600 616 540 616 L 448 616 Z" fill="url(#lockupBevel)" opacity="0.75" />
+    </g>
+    <!-- Arrow -->
+    <g fill="url(#lockupCrimson)">
+      <path d="M 314 654 L 352 616 L 668 300 L 706 338 L 390 654 L 352 692 C 334 682 323 669 314 654 Z" />
+      <path d="M 542 464 L 464 480 L 480 498 L 524 498 L 550 524 L 550 472 Z" />
+      <path d="M 766 234 L 644 260 L 672 288 L 718 334 L 746 362 Z" />
+      <path d="M 766 234 L 718 334 L 746 362 Z" fill="url(#lockupBevel)" opacity="0.65" />
+    </g>
   </g>
 
-  <!-- ── 2. WORDMARK & BRANDING (Right: 130..540) ── -->
-  <g transform="translate(130, 0)">
-    <!-- Brand Title: DealHub -->
-    <text x="0" y="66" 
-          font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif" 
-          font-size="46" 
-          font-weight="900" 
-          letter-spacing="-1.5" 
-          fill="url(#fullTextGrad)">
-      Deal<tspan fill="#E11D48">Hub</tspan>
+  <!-- ── 2. WORDMARK & TYPOGRAPHY ── -->
+  <g transform="translate(145, 0)">
+    <!-- Primary Brand Wordmark: DealHub -->
+    <text x="0" y="78"
+          font-family="'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+          font-size="56"
+          font-weight="900"
+          letter-spacing="-1.8">
+      <tspan fill="#FFFFFF">Deal</tspan><tspan fill="#C8243A">Hub</tspan>
     </text>
 
-    <!-- Dealer Badge Pill -->
-    <rect x="206" y="32" width="76" height="24" rx="6" ry="6" 
-          fill="#0284C7" fill-opacity="0.18" stroke="#38BDF8" stroke-opacity="0.4" stroke-width="1.2" />
-    <text x="244" y="48.5" 
-          font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif" 
-          font-size="11" 
-          font-weight="800" 
-          letter-spacing="1" 
-          fill="#38BDF8" 
-          text-anchor="middle">DEALER</text>
-
-    <!-- Subtitle: Intelligence Platform -->
-    <text x="2" y="92" 
-          font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif" 
-          font-size="13" 
-          font-weight="800" 
-          letter-spacing="3.2" 
-          fill="#60A5FA" 
-          text-transform="uppercase">
-      INTELLIGENCE PLATFORM
-    </text>
-
-    <!-- Geographic Corridor Indicator -->
-    <text x="2" y="110" 
-          font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif" 
-          font-size="9.5" 
-          font-weight="600" 
-          letter-spacing="0.8" 
+    <!-- Subtitle: INTELLIGENCE PLATFORM -->
+    <text x="3" y="106"
+          font-family="'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+          font-size="14.5"
+          font-weight="800"
+          letter-spacing="5.4"
           fill="#94A3B8">
-      JAPAN AUTO AUCTIONS ➔ NZ LANDED COST ARBITRAGE
+      INTELLIGENCE PLATFORM
     </text>
   </g>
 </svg>
